@@ -49,6 +49,38 @@ its 1.16e-3 component-level deviation, within the 2e-3 gate. (`momentum_x/y` are
 catastrophic-cancellation quantities ~1e-8 on ~1e11-scale sums; their digits are
 not meaningful.)
 
+**Profiling & model analysis (handoff §5 + course lectures on nsys/ncu/roofline/Amdahl)**
+(job 48943318; artifacts in `reports/nsys/`, `reports/ncu/`, `reports/amdahl_omp.png`):
+
+- **nsys timeline** (official input): `computeForcesKernel` = **99.1% of GPU time**
+  (201 launches, 610 µs each); halfKick kernels 0.9%; `cudaMemcpy` totals **0.19 ms
+  in 9 calls** — data transfer is negligible, so streams/async overlap would buy
+  nothing (course module on streams: applies when transfer ≈ compute; not here).
+- **ncu kernel analysis** (`computeForcesKernel`, 128-thread blocks, 52 reg/thread):
+
+  | metric | M (N=2231) | XL (N=35919) |
+  |---|---|---|
+  | Grid size (blocks on 108 SMs) | 18 | 281 |
+  | Waves per SM | 0.02 | 0.25 |
+  | Achieved occupancy | 6.1% | 13.8% |
+  | SM (compute) throughput | 4.5% | 53.5% |
+  | DRAM throughput | ~0.01% | ~0.00% |
+
+  This is the scaling-study crossover, quantified: at the official size the GPU is
+  ~95% idle (18 blocks can't feed 108 SMs); at XL it is busy and **unambiguously
+  compute-bound** (DRAM ≈ 0% — all particle data fits in L1/L2, so arithmetic
+  intensity is effectively huge; the kernel sits under the compute roof, far from
+  the memory roof).
+- **Roofline / pipe analysis @ XL**: FP64 is the hottest pipe at **63% utilization**
+  ("kernel is FP64-bound" per ncu); achieved **37% of the device FP64 peak**. ncu's
+  optimizer note: converting the 686M non-fused FP64 ops to FMA would gain ≈ **+31%**
+  — we *deliberately decline* this (`__d*_rn` intrinsics, no `-ffast-math`) because
+  non-contracted arithmetic is what makes the GPU results **bitwise identical** to
+  serial. Profiler-quantified cost of reproducibility.
+- **Amdahl's law fit** to the OpenMP strong scaling (`tools/amdahl_fit.py`):
+  parallel fraction **f = 99.69%**, serial fraction **0.21%**, asymptotic max
+  speedup ≈ **484×**; measured points match the model within ~3% at every p.
+
 **Optional items — both completed later the same day:**
 
 - **Pure-Python reference** (job 48940659, boost/normal, 14 min): `Particles_python.h5`

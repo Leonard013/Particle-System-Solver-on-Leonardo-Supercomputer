@@ -1,0 +1,217 @@
+[INFO] CUDACXX=/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/cuda-12.2.0-o6rr2unwsp4e4av6ukobro6plj7ceeos/bin/nvcc
+[INFO] CMAKE_PREFIX_PATH=/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/python-3.11.7-ziwh63aulhhzxksf42k5u3gnim2rbpmp/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/util-linux-uuid-2.38.1-5achpds2xrtt5lo7tn3cxbmctvz2czn4/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/sqlite-3.43.2-4kl5mnpsw3quirztgk7hmodeyfbtzh7u/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/libxcrypt-4.4.35-7om46b5e77cn5ecaqpu5tyk6sslxrkx4/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/libffi-3.4.6-4vs4jppvdiibhguw6r54db7wjutb6hy4/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/gettext-0.22.5-hsxgafgey5lmufq4yrfyxdmm34samj2f/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/tar-1.34-jgektnviu7hia5nhcsni47tyzc66skna/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/pigz-2.8-5bwzpmlcxwlg2toq5mblqz5fva5u265r/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/gdbm-1.23-wiol7vkszckswh2hu34xgtjkgg5p4gve/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/readline-8.2-zeda6mxxdkhdiul5fkfjkgp566et7mqa/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/expat-2.6.2-p2t4wry2ir3amtgbw4ku3wb4eahcbbwp/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/libbsd-0.12.1-oocs6an5mkhogxrblto5cgudvttl7kkv/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/libmd-1.0.4-2km2lxxdrubo3jgqgnamnhpvo5rn5cci/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/bzip2-1.0.8-ib3znejizupogmu7ontk67drg656svun/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-12.2.0/hdf5-1.14.3-5omb66yiexqfflyq6ynb2bbpikiyzekg/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/pkgconf-2.2.0-n5plvg444qqbw6mod7623onora4j6uiy/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-12.2.0/gcc-runtime-12.2.0-dqfwf7yjtbtdzllj66jx6suk34ir2ct3/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/cmake-3.27.9-pjgva3e6nro3ogp3fdhwlazy3e6euchj/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/ncurses-6.5-svfl57usncxqo3ghwesofskr5zm5mgay/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/gmake-4.4.1-phqmvks6ubh6jf5vhamdtzbmsgqlxsil/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/curl-8.7.1-nnr4uzefmawh73htznhvdwzogsjoql7c/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/nghttp2-1.57.0-634bffhxsfat5hswvtoukmdfjx5sqlvw/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/cuda-12.2.0-o6rr2unwsp4e4av6ukobro6plj7ceeos/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/libxml2-2.10.3-zbbe7lmrnfx6fx6gpuzexcwmjt7mkwza/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/xz-5.4.6-xxxg42czef3idnk5wtj64s6dcgjwtgfl/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/libiconv-1.17-nhc3mhme3tobb65czr3tlcid4566as45/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/gcc-12.2.0-lkcazt4letxjj4s7nlhzryoyivevsatz/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/binutils-2.42-j3w2mvnt64wdeilm35xksl6ckqfyc22w/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/zstd-1.5.6-uq5yyuxtjqrpsuijsvemu64222yto3qm/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/zlib-ng-2.1.6-jkgunjc2hc2qpkzoodjcn6fu3qpfly73/.
+[INFO] Activated Python virtualenv: /leonardo/home/userexternal/lscappat/polimi-phd-school/FinalProjects/Particles/particles_venv
+[INFO] PROJECT_ROOT=/leonardo/home/userexternal/lscappat/polimi-phd-school/FinalProjects/Particles
+[INFO] PRESET=leonardo-a100
+[INFO] Leonardo environment ready.
+/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/nvhpc-24.5-torlmnyzcexnrs6pq4cccabv7ehkv3xy/Linux_x86_64/24.5/compilers/bin/nsys
+NVIDIA Nsight Systems version 2024.1.1.59-241133802077v0
+/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/nvhpc-24.5-torlmnyzcexnrs6pq4cccabv7ehkv3xy/Linux_x86_64/24.5/compilers/bin/ncu
+Version 2024.1.1.0 (build 33998838) (public-release)
+=== [1/4] nsys timeline, official input (benchmark mode) ===
+Input file:                 input/Particles.in
+HDF5 compiled:              yes
+HDF5 output:                disabled
+Benchmark/no-output mode:   yes
+Generating grid:            1200 x 1000
+Screen grid:                1200 x 1000
+Max iterations:             3000
+Steps:                      200
+dt:                         0.001
+Output policy:              final frame only, if HDF5 is enabled
+Particles:                  2231
+Simulation completed successfully.
+Output frames:                 0  
+Mandelbrot wall time:          0.14207038499999999 s
+Particle generation wall time: 0.0032491439999999998 s
+Initial force wall time:       0.00096405999999999998 s
+Pure dynamics time:            0.12757191600000001 s
+Screen build time:             0 s
+HDF5 write time:               0 s
+Validation time:               0.0077042339999999999 s
+Loop wall time:                0.12757758199999999 s
+Pure dynamics performance:  7.7997260776423545 GInteractions/s
+Loop end-to-end performance: 7.7993796747143245 GInteractions/s
+Final validation quantities:
+  sum_x:            1472647.2045264097
+  sum_y:            809505.4358344971
+  sum_vx:           -0.061883125169312117
+  sum_vy:           -0.75136165666850729
+  weighted_sum_x:   44178743979.983391
+  weighted_sum_y:   24284767977.97797
+  momentum_x:       4.1282760321337264e-08
+  momentum_y:       -5.8906152844429016e-08
+  kinetic_energy:   72083387826.281204
+  potential_like:   100142102360.69611
+  energy_like:      172225490186.97729
+Generating '/tmp/nsys-report-dcc6.qdstrm'
+[1/6] [0%                          ] particles_cuda_M.nsys-rep[1/6] [0%                          ] particles_cuda_M.nsys-rep[1/6] [==20%                       ] particles_cuda_M.nsys-rep[1/6] [=====31%                    ] particles_cuda_M.nsys-rep[1/6] [========42%                 ] particles_cuda_M.nsys-rep[1/6] [================70%         ] particles_cuda_M.nsys-rep[1/6] [================71%         ] particles_cuda_M.nsys-rep[1/6] [=================72%        ] particles_cuda_M.nsys-rep[1/6] [==================75%       ] particles_cuda_M.nsys-rep[1/6] [===================80%      ] particles_cuda_M.nsys-rep[1/6] [===================81%      ] particles_cuda_M.nsys-rep[1/6] [======================90%   ] particles_cuda_M.nsys-rep[1/6] [========================100%] particles_cuda_M.nsys-rep[1/6] [========================100%] particles_cuda_M.nsys-rep
+[2/6] [0%                          ] particles_cuda_M.sqlite[2/6] [1%                          ] particles_cuda_M.sqlite[2/6] [2%                          ] particles_cuda_M.sqlite[2/6] [3%                          ] particles_cuda_M.sqlite[2/6] [4%                          ] particles_cuda_M.sqlite[2/6] [5%                          ] particles_cuda_M.sqlite[2/6] [6%                          ] particles_cuda_M.sqlite[2/6] [7%                          ] particles_cuda_M.sqlite[2/6] [8%                          ] particles_cuda_M.sqlite[2/6] [9%                          ] particles_cuda_M.sqlite[2/6] [10%                         ] particles_cuda_M.sqlite[2/6] [11%                         ] particles_cuda_M.sqlite[2/6] [12%                         ] particles_cuda_M.sqlite[2/6] [13%                         ] particles_cuda_M.sqlite[2/6] [14%                         ] particles_cuda_M.sqlite[2/6] [=15%                        ] particles_cuda_M.sqlite[2/6] [=16%                        ] particles_cuda_M.sqlite[2/6] [=17%                        ] particles_cuda_M.sqlite[2/6] [==18%                       ] particles_cuda_M.sqlite[2/6] [==19%                       ] particles_cuda_M.sqlite[2/6] [==20%                       ] particles_cuda_M.sqlite[2/6] [==21%                       ] particles_cuda_M.sqlite[2/6] [===22%                      ] particles_cuda_M.sqlite[2/6] [===23%                      ] particles_cuda_M.sqlite[2/6] [===24%                      ] particles_cuda_M.sqlite[2/6] [====25%                     ] particles_cuda_M.sqlite[2/6] [====26%                     ] particles_cuda_M.sqlite[2/6] [====27%                     ] particles_cuda_M.sqlite[2/6] [====28%                     ] particles_cuda_M.sqlite[2/6] [=====29%                    ] particles_cuda_M.sqlite[2/6] [=====30%                    ] particles_cuda_M.sqlite[2/6] [=====31%                    ] particles_cuda_M.sqlite[2/6] [=====32%                    ] particles_cuda_M.sqlite[2/6] [======33%                   ] particles_cuda_M.sqlite[2/6] [======34%                   ] particles_cuda_M.sqlite[2/6] [======35%                   ] particles_cuda_M.sqlite[2/6] [=======36%                  ] particles_cuda_M.sqlite[2/6] [=======37%                  ] particles_cuda_M.sqlite[2/6] [=======38%                  ] particles_cuda_M.sqlite[2/6] [=======39%                  ] particles_cuda_M.sqlite[2/6] [========40%                 ] particles_cuda_M.sqlite[2/6] [========41%                 ] particles_cuda_M.sqlite[2/6] [========42%                 ] particles_cuda_M.sqlite[2/6] [=========43%                ] particles_cuda_M.sqlite[2/6] [=========44%                ] particles_cuda_M.sqlite[2/6] [=========45%                ] particles_cuda_M.sqlite[2/6] [=========46%                ] particles_cuda_M.sqlite[2/6] [==========47%               ] particles_cuda_M.sqlite[2/6] [==========48%               ] particles_cuda_M.sqlite[2/6] [==========49%               ] particles_cuda_M.sqlite[2/6] [===========50%              ] particles_cuda_M.sqlite[2/6] [===========51%              ] particles_cuda_M.sqlite[2/6] [===========52%              ] particles_cuda_M.sqlite[2/6] [===========53%              ] particles_cuda_M.sqlite[2/6] [============54%             ] particles_cuda_M.sqlite[2/6] [============55%             ] particles_cuda_M.sqlite[2/6] [============56%             ] particles_cuda_M.sqlite[2/6] [============57%             ] particles_cuda_M.sqlite[2/6] [=============58%            ] particles_cuda_M.sqlite[2/6] [=============59%            ] particles_cuda_M.sqlite[2/6] [=============60%            ] particles_cuda_M.sqlite[2/6] [==============61%           ] particles_cuda_M.sqlite[2/6] [==============62%           ] particles_cuda_M.sqlite[2/6] [==============63%           ] particles_cuda_M.sqlite[2/6] [==============64%           ] particles_cuda_M.sqlite[2/6] [===============65%          ] particles_cuda_M.sqlite[2/6] [===============66%          ] particles_cuda_M.sqlite[2/6] [===============67%          ] particles_cuda_M.sqlite[2/6] [================68%         ] particles_cuda_M.sqlite[2/6] [================69%         ] particles_cuda_M.sqlite[2/6] [================70%         ] particles_cuda_M.sqlite[2/6] [================71%         ] particles_cuda_M.sqlite[2/6] [=================72%        ] particles_cuda_M.sqlite[2/6] [=================73%        ] particles_cuda_M.sqlite[2/6] [=================74%        ] particles_cuda_M.sqlite[2/6] [==================75%       ] particles_cuda_M.sqlite[2/6] [==================76%       ] particles_cuda_M.sqlite[2/6] [==================77%       ] particles_cuda_M.sqlite[2/6] [==================78%       ] particles_cuda_M.sqlite[2/6] [===================79%      ] particles_cuda_M.sqlite[2/6] [===================80%      ] particles_cuda_M.sqlite[2/6] [===================81%      ] particles_cuda_M.sqlite[2/6] [===================82%      ] particles_cuda_M.sqlite[2/6] [====================83%     ] particles_cuda_M.sqlite[2/6] [====================84%     ] particles_cuda_M.sqlite[2/6] [====================85%     ] particles_cuda_M.sqlite[2/6] [=====================86%    ] particles_cuda_M.sqlite[2/6] [=====================87%    ] particles_cuda_M.sqlite[2/6] [=====================88%    ] particles_cuda_M.sqlite[2/6] [=====================89%    ] particles_cuda_M.sqlite[2/6] [======================90%   ] particles_cuda_M.sqlite[2/6] [======================91%   ] particles_cuda_M.sqlite[2/6] [======================92%   ] particles_cuda_M.sqlite[2/6] [=======================93%  ] particles_cuda_M.sqlite[2/6] [=======================94%  ] particles_cuda_M.sqlite[2/6] [=======================95%  ] particles_cuda_M.sqlite[2/6] [=======================96%  ] particles_cuda_M.sqlite[2/6] [========================97% ] particles_cuda_M.sqlite[2/6] [========================98% ] particles_cuda_M.sqlite[2/6] [========================99% ] particles_cuda_M.sqlite[2/6] [========================100%] particles_cuda_M.sqlite[2/6] [========================100%] particles_cuda_M.sqlite
+[3/6] Executing 'cuda_api_sum' stats report
+
+ Time (%)  Total Time (ns)  Num Calls   Avg (ns)    Med (ns)  Min (ns)   Max (ns)   StdDev (ns)            Name         
+ --------  ---------------  ---------  -----------  --------  --------  ----------  ------------  ----------------------
+     60.2      126,322,311        601    210,186.9   7,102.0     5,124     617,843     286,852.7  cudaDeviceSynchronize 
+     38.8       81,407,425          9  9,045,269.4   2,506.0     2,180  81,383,953  27,127,006.4  cudaMalloc            
+      0.9        1,882,650        601      3,132.5   2,387.0     2,245     345,023      13,995.4  cudaLaunchKernel      
+      0.1          190,472          9     21,163.6  12,879.0    10,116      82,621      23,325.4  cudaMemcpy            
+      0.1          113,926          9     12,658.4   2,255.0     1,869      91,164      29,490.8  cudaFree              
+      0.0            5,336          1      5,336.0   5,336.0     5,336       5,336           0.0  cuModuleGetLoadingMode
+
+[4/6] Executing 'cuda_gpu_kern_sum' stats report
+
+ Time (%)  Total Time (ns)  Instances  Avg (ns)   Med (ns)   Min (ns)  Max (ns)  StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  ---------  ---------  --------  --------  -----------  ----------------------------------------------------------------------------------------------------
+     99.1      122,642,132        201  610,159.9  609,088.0   608,831   613,952      1,667.9  computeForcesKernel(unsigned long, const double *, const double *, const double *, double *, double…
+      0.5          569,277        200    2,846.4    2,848.0     2,784     3,744         70.8  halfKickDriftKernel(unsigned long, const double *, double *, double *, double *, double *, const do…
+      0.4          516,970        200    2,584.9    2,592.0     2,528     2,912         33.1  halfKickKernel(unsigned long, const double *, double *, double *, const double *, const double *, d…
+
+[5/6] Executing 'cuda_gpu_mem_time_sum' stats report
+
+ Time (%)  Total Time (ns)  Count  Avg (ns)  Med (ns)  Min (ns)  Max (ns)  StdDev (ns)           Operation          
+ --------  ---------------  -----  --------  --------  --------  --------  -----------  ----------------------------
+     55.6           13,826      5   2,765.2   2,625.0     2,624     3,200        249.2  [CUDA memcpy Host-to-Device]
+     44.4           11,040      4   2,760.0   2,720.0     2,336     3,264        381.7  [CUDA memcpy Device-to-Host]
+
+[6/6] Executing 'cuda_gpu_mem_size_sum' stats report
+
+ Total (MB)  Count  Avg (MB)  Med (MB)  Min (MB)  Max (MB)  StdDev (MB)           Operation          
+ ----------  -----  --------  --------  --------  --------  -----------  ----------------------------
+      0.089      5     0.018     0.018     0.018     0.018        0.000  [CUDA memcpy Host-to-Device]
+      0.071      4     0.018     0.018     0.018     0.018        0.000  [CUDA memcpy Device-to-Host]
+
+Generated:
+    /leonardo/home/userexternal/lscappat/polimi-phd-school/FinalProjects/Particles/reports/nsys/particles_cuda_M.nsys-rep
+    /leonardo/home/userexternal/lscappat/polimi-phd-school/FinalProjects/Particles/reports/nsys/particles_cuda_M.sqlite
+
+=== [2/4] ncu full set + roofline, computeForcesKernel @ M (N=2231) ===
+==PROF== Connected to process 1792506 (/leonardo/home/userexternal/lscappat/polimi-phd-school/FinalProjects/Particles/install/bin/particles_cuda)
+==PROF== Profiling "computeForcesKernel": 0%....50%....100% - 47 passes
+==PROF== Profiling "computeForcesKernel": 0%....50%....100% - 47 passes
+==PROF== Profiling "computeForcesKernel": 0%....50%....100% - 47 passes
+Input file:                 input/Particles.in
+HDF5 compiled:              yes
+HDF5 output:                disabled
+Benchmark/no-output mode:   yes
+Generating grid:            1200 x 1000
+Screen grid:                1200 x 1000
+Max iterations:             3000
+Steps:                      200
+dt:                         0.001
+Output policy:              final frame only, if HDF5 is enabled
+Particles:                  2231
+Simulation completed successfully.
+Output frames:                 0  
+Mandelbrot wall time:          0.140431799 s
+Particle generation wall time: 0.0030202639999999999 s
+Initial force wall time:       1.5264357639999999 s
+Pure dynamics time:            1.0158641870000007 s
+Screen build time:             0 s
+HDF5 write time:               0 s
+Validation time:               0.0077063490000000004 s
+Loop wall time:                1.0158696570000001 s
+Pure dynamics performance:  0.97948723139700489 GInteractions/s
+Loop end-to-end performance: 0.9794819572999609 GInteractions/s
+Final validation quantities:
+  sum_x:            1472647.2045264097
+  sum_y:            809505.4358344971
+  sum_vx:           -0.061883125169312117
+  sum_vy:           -0.75136165666850729
+  weighted_sum_x:   44178743979.983391
+  weighted_sum_y:   24284767977.97797
+  momentum_x:       4.1282760321337264e-08
+  momentum_y:       -5.8906152844429016e-08
+  kinetic_energy:   72083387826.281204
+  potential_like:   100142102360.69611
+  energy_like:      172225490186.97729
+==PROF== Disconnected from process 1792506
+==PROF== Report: /leonardo/home/userexternal/lscappat/polimi-phd-school/FinalProjects/Particles/reports/ncu/force_M.ncu-rep
+
+=== [3/4] ncu full set + roofline, computeForcesKernel @ XL (N=35919) ===
+==PROF== Connected to process 1792681 (/leonardo/home/userexternal/lscappat/polimi-phd-school/FinalProjects/Particles/install/bin/particles_cuda)
+==PROF== Profiling "computeForcesKernel": 0%....50%....100% - 47 passes
+==PROF== Profiling "computeForcesKernel": 0%....50%....100% - 47 passes
+==PROF== Profiling "computeForcesKernel": 0%....50%....100% - 47 passes
+Input file:                 input/scaling/XL_4800x4000.in
+HDF5 compiled:              yes
+HDF5 output:                disabled
+Benchmark/no-output mode:   yes
+Generating grid:            4800 x 4000
+Screen grid:                4800 x 4000
+Max iterations:             3000
+Steps:                      50
+dt:                         0.001
+Output policy:              final frame only, if HDF5 is enabled
+Particles:                  35919
+Simulation completed successfully.
+Output frames:                 0  
+Mandelbrot wall time:          2.196416283 s
+Particle generation wall time: 0.064676941000000002 s
+Initial force wall time:       2.7782921909999998 s
+Pure dynamics time:            5.0181691489999967 s
+Screen build time:             0 s
+HDF5 write time:               0 s
+Validation time:               1.9596723250000001 s
+Loop wall time:                5.0181707539999998 s
+Pure dynamics performance:  12.854674719933408 GInteractions/s
+Loop end-to-end performance: 12.854670608524296 GInteractions/s
+Final validation quantities:
+  sum_x:            94822808.733523414
+  sum_y:            52307018.750395447
+  sum_vx:           -0.73548702601703009
+  sum_vy:           -0.17206132453919631
+  weighted_sum_x:   2844665190281.3145
+  weighted_sum_y:   1569199091772.9478
+  momentum_x:       -2.594897523522377e-07
+  momentum_y:       -1.1949232430197299e-06
+  kinetic_energy:   17331956953.087776
+  potential_like:   5216950280384.9893
+  energy_like:      5234282237338.0771
+==PROF== Disconnected from process 1792681
+==PROF== Report: /leonardo/home/userexternal/lscappat/polimi-phd-school/FinalProjects/Particles/reports/ncu/force_XL.ncu-rep
+
+=== [4/4] text summaries (details page) ===
+--- key metrics M ---
+    Elapsed Cycles                  cycle      765,932
+    Memory Throughput                   %         1.48
+    DRAM Throughput                     %         0.01
+    Duration                      usecond       615.23
+    Compute (SM) Throughput             %         4.51
+          FP64 sub-pipeline. It is well-utilized, but should not be a bottleneck.                                       
+    Memory Throughput           Mbyte/second       113.18
+          This kernel executes 1583320 fused and 2691784 non-fused FP64 instructions. By converting pairs of non-fused  
+          higher-throughput equivalent, the achieved FP64 performance could be increased by up to 31% (relative to its  
+          current performance). Check the Source page to identify where this kernel executes FP64 instructions.         
+    Block Size                                                   128
+    Grid Size                                                     18
+    Waves Per SM                                                0.02
+    Theoretical Occupancy                     %        56.25
+    Achieved Occupancy                        %         6.08
+    Total DRAM Elapsed Cycles        cycle   31,360,000
+    Total L1 Elapsed Cycles          cycle   94,768,594
+    Total L2 Elapsed Cycles          cycle   46,642,240
+    Total SM Elapsed Cycles          cycle   94,768,594
+    Total SMSP Elapsed Cycles        cycle  379,074,376
+--- key metrics XL ---
+    Elapsed Cycles                  cycle    16,468,789
+    Memory Throughput                   %         17.82
+    DRAM Throughput                     %          0.00
+    Duration                      msecond         13.23
+    Compute (SM) Throughput             %         53.53
+          FP64 sub-pipeline. The pipeline is well-utilized, but might become a bottleneck if more work is added. Based  
+          on the number of executed instructions, the highest utilized pipeline (63.0%) is FP64. It executes 64-bit     
+    Memory Throughput           Mbyte/second        66.39
+          This kernel executes 403718340 fused and 686323424 non-fused FP64 instructions. By converting pairs of        
+          achieved FP64 performance could be increased by up to 31% (relative to its current performance). Check the    
+          Source page to identify where this kernel executes FP64 instructions.                                         
+    Block Size                                                   128
+    Grid Size                                                    281
+    Waves Per SM                                                0.25
+    Theoretical Occupancy                     %        56.25
+    Achieved Occupancy                        %        13.75
+    Total DRAM Elapsed Cycles        cycle   674,427,904
+    Total L1 Elapsed Cycles          cycle 2,036,396,804
+    Total L2 Elapsed Cycles          cycle 1,002,071,424
+    Total SM Elapsed Cycles          cycle 2,036,396,804
+
+profile_cuda DONE @ Wed Jul  8 18:16:12 CEST 2026
