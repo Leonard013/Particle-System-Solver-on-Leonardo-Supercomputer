@@ -8,10 +8,11 @@ The Leonardo scheduler outage cleared ~17:09 CEST and the account submitted
 normally (the `Invalid account` errors were outage symptoms, **not** an account
 problem). Both jobs ran on an **NVIDIA A100-SXM-64GB** node and **COMPLETED (exit 0)**:
 
-- **Correctness:** all 5 implementations generate **2231 particles**; `serial`,
-  `omp`, `cuda`, `numba` are **bitwise identical** (`max_rel_diff=0`); `numba_cuda`
-  agrees to `1.16e-3` (within the 2e-3 gate). The **A100 CUDA port is bitwise-identical
-  to the serial baseline** — the critical never-before-run result. (The macOS FMA
+- **Correctness:** all **six** implementations generate **2231 particles**; `serial`,
+  `omp`, `cuda`, `numba`, **`mpi`** are **bitwise identical** (`max_rel_diff=0`);
+  `numba_cuda` agrees to `1.16e-3` (within the 2e-3 gate). The **A100 CUDA port is
+  bitwise-identical to the serial baseline** — the critical never-before-run result.
+  The **MPI port is bitwise-identical across 1 → 128 ranks** (4 nodes). (The macOS FMA
   particle-count caveat did NOT occur: gcc-12 + nvcc both agree with Python at 2231.)
 - **OpenMP strong scaling** vs serial: 2→2.00×, 4→3.99×, 8→7.97×, 16→15.3×,
   32→**29.2× (91% efficiency)**.
@@ -48,6 +49,37 @@ reduction, numpy pairwise sums) — the expected parallel-reduction caveat.
 its 1.16e-3 component-level deviation, within the 2e-3 gate. (`momentum_x/y` are
 catastrophic-cancellation quantities ~1e-8 on ~1e11-scale sums; their digits are
 not meaningful.)
+
+**MPI distributed-memory port (course MPI day + multi-node scaling; the only
+parallel pillar the project lacked). Jobs 48945206 (1 node) + 48945207 (4 nodes,
+lrdn[0328,1731,1856,2358], Dragonfly+):**
+
+- **Correctness:** bitwise-identical to serial (8-rank HDF5 run: `max_rel_diff=0`
+  on `/pos`,`/vel`) **and** bitwise-identical across **1 → 128 ranks** (all 11
+  validation quantities to 17 digits) — the block decomposition + per-step
+  `MPI_Allgatherv` preserves the serial inner force-sum order exactly.
+- **Strong scaling** (pure-dynamics time, median of 3; 32 ranks/node):
+
+  | N (size) | 8 | 16 | 32 (1 nd) | 64 (2 nd) | 128 (4 nd) |
+  |---|---|---|---|---|---|
+  | 2231 (M) | 7.9× | 14.9× | 27.5× (86%) | 38.5× (60%) | 38.2× (**30%, saturated**) |
+  | 8996 (L) | — | — | 30.3× (95%) | 57.4× (90%) | 89.7× (70%) |
+  | 35919 (XL) | — | — | — | 61.1× (95%) | **113.7× (89%)** |
+
+  The scaling ceiling moves with problem size exactly as Amdahl + communication
+  predict. At the official N=2231, 128 ranks (~17 particles/rank) is
+  communication-bound and speedup *saturates* at ~38×; at N=35919, 128 ranks
+  delivers **114× at 89% efficiency**. This is the distributed-memory twin of the
+  CUDA occupancy story (§ profiling): the same all-pairs kernel needs enough work
+  per PE — CUDA threads or MPI ranks — before more of them helps.
+- **Single-node MPI vs OpenMP** at N=2231, 32-way: MPI **27.5× (86%)** vs OpenMP
+  **29.2× (91%)**. The gap is the per-step `MPI_Allgatherv` that OpenMP avoids via
+  shared memory — the lecture's concrete argument for hybrid MPI+OpenMP within a node.
+- **Weak scaling** (constant work/rank, N ∝ √p): p=4 → 99%, p=16 → 95%,
+  **p=64 (2 nodes) → 92%** — holds up because per-rank work is fixed, so the
+  communication fraction stays bounded (the lecture's "weak scaling scales well").
+- Artifacts: `src/cpp/particles_mpi.cpp`, `run_mpi_all.sh`, `run_mpi_nodes.sh`,
+  `tools/parse_mpi.py`, `reports/{mpi_summary.md, mpi.csv, mpi_speedup.png, mpi_weak.png}`.
 
 **Profiling & model analysis (handoff §5 + course lectures on nsys/ncu/roofline/Amdahl)**
 (job 48943318; artifacts in `reports/nsys/`, `reports/ncu/`, `reports/amdahl_omp.png`):
