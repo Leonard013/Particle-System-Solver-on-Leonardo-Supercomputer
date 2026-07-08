@@ -52,6 +52,7 @@ strict() {
 strict cpp omp
 strict cpp cuda
 strict omp cuda
+strict cpp mpi
 strict python numba
 strict numba numba_cuda
 echo; echo "validate DONE @ $(date)"

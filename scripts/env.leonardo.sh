@@ -57,6 +57,7 @@ module load cuda/12.2
 module load cmake/3.27.9
 module load hdf5/1.14.3--gcc--12.2.0-spack0.22
 module load python/3.11.7
+module load openmpi/4.1.6--gcc--12.2.0-cuda-12.2
 
 # ------------------------------------------------------------
 # Select Leonardo build preset

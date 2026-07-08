@@ -54,12 +54,13 @@
     {
       "name": "leonardo-a100",
       "inherits": "base",
-      "displayName": "Leonardo A100, OpenMP + CUDA + HDF5",
+      "displayName": "Leonardo A100, OpenMP + CUDA + MPI + HDF5",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "PARTICLES_BUILD_HDF5": "AUTO",
         "PARTICLES_BUILD_OPENMP": "AUTO",
         "PARTICLES_BUILD_CUDA": "AUTO",
+        "PARTICLES_BUILD_MPI": "AUTO",
         "PARTICLES_CUDA_ARCHITECTURES": "80"
       }
     }

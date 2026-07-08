@@ -17,6 +17,10 @@ set(PARTICLES_BUILD_CUDA "OFF" CACHE STRING
     "Build CUDA executable: OFF, ON, or AUTO"
 )
 
+set(PARTICLES_BUILD_MPI "OFF" CACHE STRING
+    "Build MPI executable: OFF, ON, or AUTO"
+)
+
 set(PARTICLES_CUDA_ARCHITECTURES "AUTO" CACHE STRING
     "CUDA architectures: AUTO, native, 80, 90, or list like 70;80;90"
 )
@@ -39,6 +43,7 @@ option(PARTICLES_STRICT_CUDA
 set_property(CACHE PARTICLES_BUILD_HDF5 PROPERTY STRINGS OFF ON AUTO)
 set_property(CACHE PARTICLES_BUILD_OPENMP PROPERTY STRINGS OFF ON AUTO)
 set_property(CACHE PARTICLES_BUILD_CUDA PROPERTY STRINGS OFF ON AUTO)
+set_property(CACHE PARTICLES_BUILD_MPI PROPERTY STRINGS OFF ON AUTO)
 
 # ============================================================
 # Validate options
@@ -54,6 +59,10 @@ endif()
 
 if(NOT PARTICLES_BUILD_CUDA MATCHES "^(OFF|ON|AUTO)$")
     message(FATAL_ERROR "PARTICLES_BUILD_CUDA must be OFF, ON, or AUTO")
+endif()
+
+if(NOT PARTICLES_BUILD_MPI MATCHES "^(OFF|ON|AUTO)$")
+    message(FATAL_ERROR "PARTICLES_BUILD_MPI must be OFF, ON, or AUTO")
 endif()
 
 if(APPLE AND NOT PARTICLES_BUILD_CUDA STREQUAL "OFF")
@@ -122,6 +131,28 @@ if(NOT PARTICLES_BUILD_OPENMP STREQUAL "OFF")
 endif()
 
 # ============================================================
+# Optional MPI
+# ============================================================
+
+set(PARTICLES_MPI_AVAILABLE OFF)
+
+if(NOT PARTICLES_BUILD_MPI STREQUAL "OFF")
+    find_package(MPI QUIET COMPONENTS CXX)
+
+    if(MPI_CXX_FOUND)
+        set(PARTICLES_MPI_AVAILABLE ON)
+    elseif(PARTICLES_BUILD_MPI STREQUAL "ON")
+        message(FATAL_ERROR
+            "MPI was requested, but MPI was not found."
+        )
+    else()
+        message(WARNING
+            "MPI not found. MPI target will not be built."
+        )
+    endif()
+endif()
+
+# ============================================================
 # Optional CUDA
 # ============================================================
 
@@ -162,6 +193,7 @@ endif()
 set(PARTICLES_SERIAL_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/particles.cpp")
 set(PARTICLES_OMP_SRC    "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/particles_omp.cpp")
 set(PARTICLES_CUDA_SRC   "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/particles.cu")
+set(PARTICLES_MPI_SRC    "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/particles_mpi.cpp")
 
 if(NOT EXISTS "${PARTICLES_SERIAL_SRC}")
     message(FATAL_ERROR "Serial source file not found: ${PARTICLES_SERIAL_SRC}")
@@ -277,6 +309,21 @@ if(PARTICLES_OPENMP_AVAILABLE)
     endif()
 endif()
 
+# MPI target: optional
+if(PARTICLES_MPI_AVAILABLE)
+    particles_optional_source(
+        particles_mpi
+        "${PARTICLES_MPI_SRC}"
+        "${PARTICLES_BUILD_MPI}"
+        "MPI"
+    )
+
+    if(TARGET particles_mpi)
+        target_link_libraries(particles_mpi PRIVATE MPI::MPI_CXX)
+        target_compile_definitions(particles_mpi PRIVATE PARTICLES_MPI=1)
+    endif()
+endif()
+
 # CUDA target: optional
 if(PARTICLES_CUDA_AVAILABLE)
     particles_optional_source(
@@ -314,6 +361,10 @@ endif()
 
 if(TARGET particles_cuda)
     install(TARGETS particles_cuda RUNTIME DESTINATION bin)
+endif()
+
+if(TARGET particles_mpi)
+    install(TARGETS particles_mpi RUNTIME DESTINATION bin)
 endif()
 
 # ============================================================
@@ -356,6 +407,13 @@ message(STATUS "  OpenMP target built:      ${PARTICLES_OMP_TARGET_BUILT}")
 message(STATUS "  CUDA requested:           ${PARTICLES_BUILD_CUDA}")
 message(STATUS "  CUDA available:           ${PARTICLES_CUDA_AVAILABLE}")
 message(STATUS "  CUDA target built:        ${PARTICLES_CUDA_TARGET_BUILT}")
+message(STATUS "  MPI requested:            ${PARTICLES_BUILD_MPI}")
+message(STATUS "  MPI available:            ${PARTICLES_MPI_AVAILABLE}")
+if(TARGET particles_mpi)
+    message(STATUS "  MPI target built:         ON")
+else()
+    message(STATUS "  MPI target built:         OFF")
+endif()
 message(STATUS "  Native host architecture: ${PARTICLES_NATIVE_ARCH}")
 message(STATUS "  CUDA architectures:       ${PARTICLES_CUDA_ARCH_SUMMARY}")
 message(STATUS "")
