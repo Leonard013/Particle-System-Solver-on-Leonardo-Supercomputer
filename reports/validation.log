@@ -27,6 +27,7 @@ Loading python/3.11.7
 -rw-r--r--. 1 lscappat interactive 116186040 Jul  8 17:10 output/Particles_numba_cuda.h5
 -rw-r--r--. 1 lscappat interactive 116186040 Jul  8 17:09 output/Particles_numba.h5
 -rw-r--r--. 1 lscappat interactive 116175312 Jul  8 17:09 output/Particles_omp.h5
+-rw-r--r--. 1 lscappat interactive 116186040 Jul  8 17:52 output/Particles_python.h5
 
 ############ particle counts per file (HDF5 attr) ############
   output/Particles_cpp.h5                  particles=2231  frames=11  last_step=200
@@ -34,6 +35,7 @@ Loading python/3.11.7
   output/Particles_numba.h5                particles=2231  frames=11  last_step=200
   output/Particles_numba_cuda.h5           particles=2231  frames=11  last_step=200
   output/Particles_omp.h5                  particles=2231  frames=11  last_step=200
+  output/Particles_python.h5               particles=2231  frames=11  last_step=200
 
 ################################################################
 ### PASS 1 - course gate: RTOL=ATOL=2e-3 (full matrix) ###
@@ -76,7 +78,22 @@ Cpp vs Cuda
 SUCCESS: files match for all checked datasets.
 
 Cpp vs Python
-ERROR: cannot open file: [Errno 2] Unable to synchronously open file (unable to open file: name = 'output/Particles_python.h5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+[INFO] /step: frames=11
+[ OK ] /step: identical, starts at zero, strictly increasing, no duplicates
+[INFO] /weight: shape=(2231,), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /weight: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /pos: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /pos: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /vel: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /vel: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+
+SUCCESS: files match for all checked datasets.
 
 Cpp vs Numba
 [INFO] /step: frames=11
@@ -137,7 +154,22 @@ Omp vs Cuda
 SUCCESS: files match for all checked datasets.
 
 Omp vs Python
-ERROR: cannot open file: [Errno 2] Unable to synchronously open file (unable to open file: name = 'output/Particles_python.h5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+[INFO] /step: frames=11
+[ OK ] /step: identical, starts at zero, strictly increasing, no duplicates
+[INFO] /weight: shape=(2231,), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /weight: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /pos: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /pos: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /vel: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /vel: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+
+SUCCESS: files match for all checked datasets.
 
 Omp vs Numba
 [INFO] /step: frames=11
@@ -180,7 +212,22 @@ Omp vs NumbaCuda
 SUCCESS: files match for all checked datasets.
 
 Cuda vs Python
-ERROR: cannot open file: [Errno 2] Unable to synchronously open file (unable to open file: name = 'output/Particles_python.h5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+[INFO] /step: frames=11
+[ OK ] /step: identical, starts at zero, strictly increasing, no duplicates
+[INFO] /weight: shape=(2231,), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /weight: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /pos: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /pos: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /vel: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /vel: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+
+SUCCESS: files match for all checked datasets.
 
 Cuda vs Numba
 [INFO] /step: frames=11
@@ -223,10 +270,44 @@ Cuda vs NumbaCuda
 SUCCESS: files match for all checked datasets.
 
 Python vs Numba
-ERROR: cannot open file: [Errno 2] Unable to synchronously open file (unable to open file: name = 'output/Particles_python.h5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+[INFO] /step: frames=11
+[ OK ] /step: identical, starts at zero, strictly increasing, no duplicates
+[INFO] /weight: shape=(2231,), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /weight: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /pos: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /pos: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /vel: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /vel: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+
+SUCCESS: files match for all checked datasets.
 
 Python vs NumbaCuda
-ERROR: cannot open file: [Errno 2] Unable to synchronously open file (unable to open file: name = 'output/Particles_python.h5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+[INFO] /step: frames=11
+[ OK ] /step: identical, starts at zero, strictly increasing, no duplicates
+[INFO] /weight: shape=(2231,), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /weight: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /pos: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /pos: matched within tolerance
+       max_abs_diff=4.5585945713355613e-05
+       max_rel_diff=1.0203488509085666e-07
+       max_abs_index=(10, 1182, 0)
+       max_rel_index=(10, 1182, 0)
+[INFO] /vel: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /vel: matched within tolerance
+       max_abs_diff=0.0204758040614621
+       max_rel_diff=0.0011581513121821487
+       max_abs_index=(10, 1182, 0)
+       max_rel_index=(10, 1193, 0)
+
+SUCCESS: files match for all checked datasets.
 
 Numba vs NumbaCuda
 [INFO] /step: frames=11
@@ -309,7 +390,22 @@ SUCCESS: files match for all checked datasets.
 SUCCESS: files match for all checked datasets.
 
 --- STRICT python vs numba ---
-SKIP: missing one of Particles_python.h5 / Particles_numba.h5
+[INFO] /step: frames=11
+[ OK ] /step: identical, starts at zero, strictly increasing, no duplicates
+[INFO] /weight: shape=(2231,), dtype=float64, mode=rtol=1e-12, atol=1e-14
+[ OK ] /weight: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /pos: shape=(11, 2231, 2), dtype=float64, mode=rtol=1e-12, atol=1e-14
+[ OK ] /pos: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /vel: shape=(11, 2231, 2), dtype=float64, mode=rtol=1e-12, atol=1e-14
+[ OK ] /vel: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+
+SUCCESS: files match for all checked datasets.
 
 --- STRICT numba vs numba_cuda ---
 [INFO] /step: frames=11
@@ -335,4 +431,4 @@ SKIP: missing one of Particles_python.h5 / Particles_numba.h5
 
 FAILURE: files differ.
 
-validate DONE @ Wed Jul  8 17:13:51 CEST 2026
+validate DONE @ Wed Jul  8 17:56:16 CEST 2026

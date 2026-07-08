@@ -23,9 +23,30 @@ Artifacts: `reports/{summary.md, benchmarks.csv, speedup_omp.png, efficiency_omp
 throughput.png}`, full validation in `reports/validation.log`, job logs in `logs/`.
 Rerun anytime once modules/venv are in place: `bash scripts/submit_pipeline.sh`.
 
-Only open item (optional): pure-Python reference `Particles_python.h5` was not
-generated (`sbatch submit_python_ref.sh`), so the `Python vs Numba` pair SKIPs;
-it is redundant since `Cpp vs Numba` is already bitwise (0).
+**Optional items — both completed later the same day:**
+
+- **Pure-Python reference** (job 48940659, boost/normal, 14 min): `Particles_python.h5`
+  generated; the full 15-pair validation matrix now **PASSes**, and `serial C++`,
+  `omp`, `cuda`, `python`, `numba` are **all bitwise identical** (`max_rel_diff=0`).
+  Pure Python runs at 0.00128 GInt/s — **~221× slower than serial C++**.
+- **Problem-size scaling study** (job 48940656, boost/dbg, 14 min): same Mandelbrot
+  window at grid 600×500 → 9600×8000, N = 567 → 143,768 (`input/scaling/*.in`,
+  `run_scaling.sh`, parsed by `tools/parse_scaling.py` → `reports/scaling_*`):
+
+  | N | serial GInt/s | omp-32 GInt/s | CUDA GInt/s | CUDA speedup vs serial |
+  |---|---|---|---|---|
+  | 567 | 0.282 | 5.78 | 1.78 | 6.3× (GPU under-occupied, loses to omp-32) |
+  | 2,231 | 0.283 | 8.37 | 8.86 | 31× (crossover: GPU ≈ 32-core CPU) |
+  | 8,996 | 0.283 | 8.39 | 36.8 | 130× |
+  | 35,919 | 0.283 | 8.44 | 105.4 | 372× |
+  | 143,768 | (0.283 extrap.) | 8.07 | **153.9** | **543×** (GPU 19× faster than omp-32) |
+
+  serial is size-independent (flat 0.283); omp-32 saturates at ~8.4 GInt/s
+  (~29–30×); the A100 keeps climbing with occupancy — the official N=2231 sits
+  right at the CPU/GPU crossover, which explains why CUDA "only" tied omp-32
+  in the headline benchmark. Steps per size: 200/200/200/50/10 (GInt/s is a
+  rate, so different step counts remain comparable; serial XL measured with 2
+  reps, XXL serial extrapolated).
 
 ---
 _Historical context (the outage that blocked the first attempts):_
