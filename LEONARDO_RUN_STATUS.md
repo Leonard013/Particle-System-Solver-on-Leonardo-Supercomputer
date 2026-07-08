@@ -23,6 +23,18 @@ Artifacts: `reports/{summary.md, benchmarks.csv, speedup_omp.png, efficiency_omp
 throughput.png}`, full validation in `reports/validation.log`, job logs in `logs/`.
 Rerun anytime once modules/venv are in place: `bash scripts/submit_pipeline.sh`.
 
+**Printed 17-digit `Final validation quantities:` blocks** (handoff §3, compared
+across the five correctness runs): `cuda` is **identical to `serial` in all 11
+quantities to all 17 digits**. `omp`, `python`, `numba` differ from serial only in
+the last 1–2 digits (≈1e-15 relative) — their `/pos`,`/vel` arrays are bitwise
+identical (validator max_rel_diff=0); the tiny print differences come from the
+summation order *of the validation reductions themselves* (OpenMP parallel
+reduction, numpy pairwise sums) — the expected parallel-reduction caveat.
+`numba_cuda` differs at ≤1e-6 relative on the energy aggregates, consistent with
+its 1.16e-3 component-level deviation, within the 2e-3 gate. (`momentum_x/y` are
+catastrophic-cancellation quantities ~1e-8 on ~1e11-scale sums; their digits are
+not meaningful.)
+
 **Optional items — both completed later the same day:**
 
 - **Pure-Python reference** (job 48940659, boost/normal, 14 min): `Particles_python.h5`
