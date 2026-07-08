@@ -23,6 +23,20 @@ Artifacts: `reports/{summary.md, benchmarks.csv, speedup_omp.png, efficiency_omp
 throughput.png}`, full validation in `reports/validation.log`, job logs in `logs/`.
 Rerun anytime once modules/venv are in place: `bash scripts/submit_pipeline.sh`.
 
+**Exact build configuration** (exam deliverable — hardware/compiler/flags):
+- Node: Leonardo Booster `lrdn1384`/`lrdn0016`, 1× Intel Xeon Platinum 8358 (32 cores),
+  NVIDIA **A100-SXM-64GB** (driver 535.274.02, compute cap 8.0), 1 GPU used.
+- Modules: `gcc/12.2.0`, `cuda/12.2` (nvcc), `cmake/3.27.9`,
+  `hdf5/1.14.3--gcc--12.2.0-spack0.22`, `python/3.11.7`; venv: numpy 2.4.6,
+  numba 0.65.1, h5py 3.16.0.
+- C++ (serial): `g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -Wpedantic -DUSE_HDF5`
+- C++ (OpenMP): same + `-fopenmp`
+- CUDA: `nvcc -O3 -DNDEBUG -std=c++17 --generate-code=arch=compute_80,code=[compute_80,sm_80] -rdc=true -DUSE_HDF5` (no fast-math; `PARTICLES_FAST_MATH_CUDA=OFF`)
+- No `-ffast-math`/`-march=native` anywhere (`PARTICLES_NATIVE_ARCH=OFF`); default
+  gcc FMA contraction did **not** change the particle count on this platform (2231
+  everywhere). Timing runs: HDF5 output **disabled** (`none 0`); OpenMP pinning
+  `OMP_PROC_BIND=close`, `OMP_PLACES=cores`.
+
 **Printed 17-digit `Final validation quantities:` blocks** (handoff §3, compared
 across the five correctness runs): `cuda` is **identical to `serial` in all 11
 quantities to all 17 digits**. `omp`, `python`, `numba` differ from serial only in
