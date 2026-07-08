@@ -1,4 +1,5 @@
 #!/bin/bash -l
+#SBATCH --account=tra26_poliex
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=32
 #SBATCH --nodes=1
@@ -10,7 +11,6 @@
 #SBATCH --error=logs/%x_%j.err
 #SBATCH --gres=gpu:1
 #SBATCH --qos=boost_qos_dbg
-#SBATCH --exclusive
 
 export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}
 export RTOL=2e-3

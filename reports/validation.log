@@ -1,0 +1,338 @@
+Loading gcc/12.2.0
+  Loading requirement: zlib-ng/2.1.6-jkgunjc zstd/1.5.6-uq5yyux binutils/2.42
+Loading cuda/12.2
+  Loading requirement: libiconv/1.17-nhc3mhm xz/5.4.6-xxxg42c
+    libxml2/2.10.3-zbbe7lm
+Loading cmake/3.27.9
+  Loading requirement: nghttp2/1.57.0-634bffh curl/8.7.1 gmake/4.4.1-phqmvks
+    ncurses/6.5-svfl57u
+Loading hdf5/1.14.3--gcc--12.2.0-spack0.22
+  Loading requirement: glibc/2.28--gcc--12.2.0-gi6mmti
+    gcc-runtime/12.2.0--gcc--12.2.0-dqfwf7y pkgconf/2.2.0
+Loading python/3.11.7
+  Loading requirement: bzip2/1.0.8-ib3znej libmd/1.0.4-2km2lxx
+    libbsd/0.12.1-oocs6an expat/2.6.2-p2t4wry readline/8.2-zeda6mx
+    gdbm/1.23-wiol7vk pigz/2.8-5bwzpml tar/1.34-jgektnv gettext/0.22.5-hsxgafg
+    libffi/3.4.6-4vs4jpp libxcrypt/4.4.35-7om46b5 sqlite/3.43.2-4kl5mnp
+    util-linux-uuid/2.38.1-5achpds
+[INFO] CUDACXX=/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/cuda-12.2.0-o6rr2unwsp4e4av6ukobro6plj7ceeos/bin/nvcc
+[INFO] CMAKE_PREFIX_PATH=/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/python-3.11.7-ziwh63aulhhzxksf42k5u3gnim2rbpmp/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/util-linux-uuid-2.38.1-5achpds2xrtt5lo7tn3cxbmctvz2czn4/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/sqlite-3.43.2-4kl5mnpsw3quirztgk7hmodeyfbtzh7u/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/libxcrypt-4.4.35-7om46b5e77cn5ecaqpu5tyk6sslxrkx4/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/libffi-3.4.6-4vs4jppvdiibhguw6r54db7wjutb6hy4/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/gettext-0.22.5-hsxgafgey5lmufq4yrfyxdmm34samj2f/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/tar-1.34-jgektnviu7hia5nhcsni47tyzc66skna/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/pigz-2.8-5bwzpmlcxwlg2toq5mblqz5fva5u265r/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/gdbm-1.23-wiol7vkszckswh2hu34xgtjkgg5p4gve/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/readline-8.2-zeda6mxxdkhdiul5fkfjkgp566et7mqa/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/expat-2.6.2-p2t4wry2ir3amtgbw4ku3wb4eahcbbwp/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/libbsd-0.12.1-oocs6an5mkhogxrblto5cgudvttl7kkv/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/libmd-1.0.4-2km2lxxdrubo3jgqgnamnhpvo5rn5cci/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/bzip2-1.0.8-ib3znejizupogmu7ontk67drg656svun/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-12.2.0/hdf5-1.14.3-5omb66yiexqfflyq6ynb2bbpikiyzekg/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/pkgconf-2.2.0-n5plvg444qqbw6mod7623onora4j6uiy/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-12.2.0/gcc-runtime-12.2.0-dqfwf7yjtbtdzllj66jx6suk34ir2ct3/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/cmake-3.27.9-pjgva3e6nro3ogp3fdhwlazy3e6euchj/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/ncurses-6.5-svfl57usncxqo3ghwesofskr5zm5mgay/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/gmake-4.4.1-phqmvks6ubh6jf5vhamdtzbmsgqlxsil/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/curl-8.7.1-nnr4uzefmawh73htznhvdwzogsjoql7c/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/nghttp2-1.57.0-634bffhxsfat5hswvtoukmdfjx5sqlvw/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/cuda-12.2.0-o6rr2unwsp4e4av6ukobro6plj7ceeos/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/libxml2-2.10.3-zbbe7lmrnfx6fx6gpuzexcwmjt7mkwza/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/xz-5.4.6-xxxg42czef3idnk5wtj64s6dcgjwtgfl/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/libiconv-1.17-nhc3mhme3tobb65czr3tlcid4566as45/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/gcc-12.2.0-lkcazt4letxjj4s7nlhzryoyivevsatz/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/binutils-2.42-j3w2mvnt64wdeilm35xksl6ckqfyc22w/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/zstd-1.5.6-uq5yyuxtjqrpsuijsvemu64222yto3qm/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/zlib-ng-2.1.6-jkgunjc2hc2qpkzoodjcn6fu3qpfly73/.
+[INFO] Activated Python virtualenv: /leonardo/home/userexternal/lscappat/polimi-phd-school/FinalProjects/Particles/particles_venv
+[INFO] PROJECT_ROOT=/leonardo/home/userexternal/lscappat/polimi-phd-school/FinalProjects/Particles
+[INFO] PRESET=leonardo-a100
+[INFO] Leonardo environment ready.
+############ available outputs ############
+-rw-r--r--. 1 lscappat interactive 116175312 Jul  8 17:09 output/Particles_cpp.h5
+-rw-r--r--. 1 lscappat interactive 116175312 Jul  8 17:09 output/Particles_cuda.h5
+-rw-r--r--. 1 lscappat interactive 116186040 Jul  8 17:10 output/Particles_numba_cuda.h5
+-rw-r--r--. 1 lscappat interactive 116186040 Jul  8 17:09 output/Particles_numba.h5
+-rw-r--r--. 1 lscappat interactive 116175312 Jul  8 17:09 output/Particles_omp.h5
+
+############ particle counts per file (HDF5 attr) ############
+  output/Particles_cpp.h5                  particles=2231  frames=11  last_step=200
+  output/Particles_cuda.h5                 particles=2231  frames=11  last_step=200
+  output/Particles_numba.h5                particles=2231  frames=11  last_step=200
+  output/Particles_numba_cuda.h5           particles=2231  frames=11  last_step=200
+  output/Particles_omp.h5                  particles=2231  frames=11  last_step=200
+
+################################################################
+### PASS 1 - course gate: RTOL=ATOL=2e-3 (full matrix) ###
+################################################################
+
+Cpp vs Omp
+[INFO] /step: frames=11
+[ OK ] /step: identical, starts at zero, strictly increasing, no duplicates
+[INFO] /weight: shape=(2231,), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /weight: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /pos: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /pos: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /vel: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /vel: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+
+SUCCESS: files match for all checked datasets.
+
+Cpp vs Cuda
+[INFO] /step: frames=11
+[ OK ] /step: identical, starts at zero, strictly increasing, no duplicates
+[INFO] /weight: shape=(2231,), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /weight: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /pos: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /pos: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /vel: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /vel: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+
+SUCCESS: files match for all checked datasets.
+
+Cpp vs Python
+ERROR: cannot open file: [Errno 2] Unable to synchronously open file (unable to open file: name = 'output/Particles_python.h5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+
+Cpp vs Numba
+[INFO] /step: frames=11
+[ OK ] /step: identical, starts at zero, strictly increasing, no duplicates
+[INFO] /weight: shape=(2231,), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /weight: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /pos: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /pos: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /vel: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /vel: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+
+SUCCESS: files match for all checked datasets.
+
+Cpp vs NumbaCuda
+[INFO] /step: frames=11
+[ OK ] /step: identical, starts at zero, strictly increasing, no duplicates
+[INFO] /weight: shape=(2231,), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /weight: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /pos: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /pos: matched within tolerance
+       max_abs_diff=4.5585945713355613e-05
+       max_rel_diff=1.0203488509085666e-07
+       max_abs_index=(10, 1182, 0)
+       max_rel_index=(10, 1182, 0)
+[INFO] /vel: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /vel: matched within tolerance
+       max_abs_diff=0.0204758040614621
+       max_rel_diff=0.0011581513121821487
+       max_abs_index=(10, 1182, 0)
+       max_rel_index=(10, 1193, 0)
+
+SUCCESS: files match for all checked datasets.
+
+Omp vs Cuda
+[INFO] /step: frames=11
+[ OK ] /step: identical, starts at zero, strictly increasing, no duplicates
+[INFO] /weight: shape=(2231,), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /weight: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /pos: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /pos: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /vel: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /vel: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+
+SUCCESS: files match for all checked datasets.
+
+Omp vs Python
+ERROR: cannot open file: [Errno 2] Unable to synchronously open file (unable to open file: name = 'output/Particles_python.h5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+
+Omp vs Numba
+[INFO] /step: frames=11
+[ OK ] /step: identical, starts at zero, strictly increasing, no duplicates
+[INFO] /weight: shape=(2231,), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /weight: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /pos: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /pos: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /vel: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /vel: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+
+SUCCESS: files match for all checked datasets.
+
+Omp vs NumbaCuda
+[INFO] /step: frames=11
+[ OK ] /step: identical, starts at zero, strictly increasing, no duplicates
+[INFO] /weight: shape=(2231,), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /weight: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /pos: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /pos: matched within tolerance
+       max_abs_diff=4.5585945713355613e-05
+       max_rel_diff=1.0203488509085666e-07
+       max_abs_index=(10, 1182, 0)
+       max_rel_index=(10, 1182, 0)
+[INFO] /vel: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /vel: matched within tolerance
+       max_abs_diff=0.0204758040614621
+       max_rel_diff=0.0011581513121821487
+       max_abs_index=(10, 1182, 0)
+       max_rel_index=(10, 1193, 0)
+
+SUCCESS: files match for all checked datasets.
+
+Cuda vs Python
+ERROR: cannot open file: [Errno 2] Unable to synchronously open file (unable to open file: name = 'output/Particles_python.h5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+
+Cuda vs Numba
+[INFO] /step: frames=11
+[ OK ] /step: identical, starts at zero, strictly increasing, no duplicates
+[INFO] /weight: shape=(2231,), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /weight: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /pos: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /pos: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /vel: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /vel: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+
+SUCCESS: files match for all checked datasets.
+
+Cuda vs NumbaCuda
+[INFO] /step: frames=11
+[ OK ] /step: identical, starts at zero, strictly increasing, no duplicates
+[INFO] /weight: shape=(2231,), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /weight: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /pos: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /pos: matched within tolerance
+       max_abs_diff=4.5585945713355613e-05
+       max_rel_diff=1.0203488509085666e-07
+       max_abs_index=(10, 1182, 0)
+       max_rel_index=(10, 1182, 0)
+[INFO] /vel: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /vel: matched within tolerance
+       max_abs_diff=0.0204758040614621
+       max_rel_diff=0.0011581513121821487
+       max_abs_index=(10, 1182, 0)
+       max_rel_index=(10, 1193, 0)
+
+SUCCESS: files match for all checked datasets.
+
+Python vs Numba
+ERROR: cannot open file: [Errno 2] Unable to synchronously open file (unable to open file: name = 'output/Particles_python.h5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+
+Python vs NumbaCuda
+ERROR: cannot open file: [Errno 2] Unable to synchronously open file (unable to open file: name = 'output/Particles_python.h5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+
+Numba vs NumbaCuda
+[INFO] /step: frames=11
+[ OK ] /step: identical, starts at zero, strictly increasing, no duplicates
+[INFO] /weight: shape=(2231,), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /weight: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /pos: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /pos: matched within tolerance
+       max_abs_diff=4.5585945713355613e-05
+       max_rel_diff=1.0203488509085666e-07
+       max_abs_index=(10, 1182, 0)
+       max_rel_index=(10, 1182, 0)
+[INFO] /vel: shape=(11, 2231, 2), dtype=float64, mode=rtol=0.002, atol=0.002
+[ OK ] /vel: matched within tolerance
+       max_abs_diff=0.0204758040614621
+       max_rel_diff=0.0011581513121821487
+       max_abs_index=(10, 1182, 0)
+       max_rel_index=(10, 1193, 0)
+
+SUCCESS: files match for all checked datasets.
+
+################################################################
+### PASS 2 - STRICT near-bitwise (rtol=1e-12 atol=1e-14) ###
+################################################################
+
+--- STRICT cpp vs omp ---
+[INFO] /step: frames=11
+[ OK ] /step: identical, starts at zero, strictly increasing, no duplicates
+[INFO] /weight: shape=(2231,), dtype=float64, mode=rtol=1e-12, atol=1e-14
+[ OK ] /weight: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /pos: shape=(11, 2231, 2), dtype=float64, mode=rtol=1e-12, atol=1e-14
+[ OK ] /pos: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /vel: shape=(11, 2231, 2), dtype=float64, mode=rtol=1e-12, atol=1e-14
+[ OK ] /vel: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+
+SUCCESS: files match for all checked datasets.
+
+--- STRICT cpp vs cuda ---
+[INFO] /step: frames=11
+[ OK ] /step: identical, starts at zero, strictly increasing, no duplicates
+[INFO] /weight: shape=(2231,), dtype=float64, mode=rtol=1e-12, atol=1e-14
+[ OK ] /weight: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /pos: shape=(11, 2231, 2), dtype=float64, mode=rtol=1e-12, atol=1e-14
+[ OK ] /pos: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /vel: shape=(11, 2231, 2), dtype=float64, mode=rtol=1e-12, atol=1e-14
+[ OK ] /vel: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+
+SUCCESS: files match for all checked datasets.
+
+--- STRICT omp vs cuda ---
+[INFO] /step: frames=11
+[ OK ] /step: identical, starts at zero, strictly increasing, no duplicates
+[INFO] /weight: shape=(2231,), dtype=float64, mode=rtol=1e-12, atol=1e-14
+[ OK ] /weight: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /pos: shape=(11, 2231, 2), dtype=float64, mode=rtol=1e-12, atol=1e-14
+[ OK ] /pos: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /vel: shape=(11, 2231, 2), dtype=float64, mode=rtol=1e-12, atol=1e-14
+[ OK ] /vel: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+
+SUCCESS: files match for all checked datasets.
+
+--- STRICT python vs numba ---
+SKIP: missing one of Particles_python.h5 / Particles_numba.h5
+
+--- STRICT numba vs numba_cuda ---
+[INFO] /step: frames=11
+[ OK ] /step: identical, starts at zero, strictly increasing, no duplicates
+[INFO] /weight: shape=(2231,), dtype=float64, mode=rtol=1e-12, atol=1e-14
+[ OK ] /weight: matched within tolerance
+       max_abs_diff=0
+       max_rel_diff=0
+[INFO] /pos: shape=(11, 2231, 2), dtype=float64, mode=rtol=1e-12, atol=1e-14
+[FAIL] /pos: mismatch at index (9, 238, 1)
+       values: 173.96225760127294 vs 173.96225760020016
+       chunk max_abs_diff=4.5585945713355613e-05
+       chunk max_rel_diff=1.0203488509085666e-07
+       global max_abs_diff_so_far=4.5585945713355613e-05 at (10, 1182, 0)
+       global max_rel_diff_so_far=1.0203488509085666e-07 at (10, 1182, 0)
+[INFO] /vel: shape=(11, 2231, 2), dtype=float64, mode=rtol=1e-12, atol=1e-14
+[FAIL] /vel: mismatch at index (8, 1176, 1)
+       values: -0.4416586724733892 vs -0.44165867247281904
+       chunk max_abs_diff=0.0204758040614621
+       chunk max_rel_diff=0.0011581513121821487
+       global max_abs_diff_so_far=0.0204758040614621 at (10, 1182, 0)
+       global max_rel_diff_so_far=0.0011581513121821487 at (10, 1193, 0)
+
+FAILURE: files differ.
+
+validate DONE @ Wed Jul  8 17:13:51 CEST 2026

@@ -1,0 +1,312 @@
+[INFO] CUDACXX=/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/cuda-12.2.0-o6rr2unwsp4e4av6ukobro6plj7ceeos/bin/nvcc
+[INFO] CMAKE_PREFIX_PATH=/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/python-3.11.7-ziwh63aulhhzxksf42k5u3gnim2rbpmp/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/util-linux-uuid-2.38.1-5achpds2xrtt5lo7tn3cxbmctvz2czn4/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/sqlite-3.43.2-4kl5mnpsw3quirztgk7hmodeyfbtzh7u/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/libxcrypt-4.4.35-7om46b5e77cn5ecaqpu5tyk6sslxrkx4/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/libffi-3.4.6-4vs4jppvdiibhguw6r54db7wjutb6hy4/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/gettext-0.22.5-hsxgafgey5lmufq4yrfyxdmm34samj2f/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/tar-1.34-jgektnviu7hia5nhcsni47tyzc66skna/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/pigz-2.8-5bwzpmlcxwlg2toq5mblqz5fva5u265r/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/gdbm-1.23-wiol7vkszckswh2hu34xgtjkgg5p4gve/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/readline-8.2-zeda6mxxdkhdiul5fkfjkgp566et7mqa/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/expat-2.6.2-p2t4wry2ir3amtgbw4ku3wb4eahcbbwp/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/libbsd-0.12.1-oocs6an5mkhogxrblto5cgudvttl7kkv/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/libmd-1.0.4-2km2lxxdrubo3jgqgnamnhpvo5rn5cci/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/bzip2-1.0.8-ib3znejizupogmu7ontk67drg656svun/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-12.2.0/hdf5-1.14.3-5omb66yiexqfflyq6ynb2bbpikiyzekg/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/pkgconf-2.2.0-n5plvg444qqbw6mod7623onora4j6uiy/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-12.2.0/gcc-runtime-12.2.0-dqfwf7yjtbtdzllj66jx6suk34ir2ct3/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/cmake-3.27.9-pjgva3e6nro3ogp3fdhwlazy3e6euchj/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/ncurses-6.5-svfl57usncxqo3ghwesofskr5zm5mgay/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/gmake-4.4.1-phqmvks6ubh6jf5vhamdtzbmsgqlxsil/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/curl-8.7.1-nnr4uzefmawh73htznhvdwzogsjoql7c/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/nghttp2-1.57.0-634bffhxsfat5hswvtoukmdfjx5sqlvw/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/cuda-12.2.0-o6rr2unwsp4e4av6ukobro6plj7ceeos/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/libxml2-2.10.3-zbbe7lmrnfx6fx6gpuzexcwmjt7mkwza/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/xz-5.4.6-xxxg42czef3idnk5wtj64s6dcgjwtgfl/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/libiconv-1.17-nhc3mhme3tobb65czr3tlcid4566as45/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/gcc-12.2.0-lkcazt4letxjj4s7nlhzryoyivevsatz/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/binutils-2.42-j3w2mvnt64wdeilm35xksl6ckqfyc22w/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/zstd-1.5.6-uq5yyuxtjqrpsuijsvemu64222yto3qm/.:/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/zlib-ng-2.1.6-jkgunjc2hc2qpkzoodjcn6fu3qpfly73/.
+[INFO] Activated Python virtualenv: /leonardo/home/userexternal/lscappat/polimi-phd-school/FinalProjects/Particles/particles_venv
+[INFO] PROJECT_ROOT=/leonardo/home/userexternal/lscappat/polimi-phd-school/FinalProjects/Particles
+[INFO] PRESET=leonardo-a100
+[INFO] Leonardo environment ready.
+############################################################
+# host   : lrdn3317.leonardo.local   date: Wed Jul  8 17:09:48 CEST 2026
+# GPU    :
+#          NVIDIA A100-SXM-64GB, 65536 MiB, 535.274.02, 8.0
+# python : /leonardo/home/userexternal/lscappat/polimi-phd-school/FinalProjects/Particles/particles_venv/bin/python  (Python 3.11.7)
+# numba  : 0.65.1
+# numpy  : 2.4.6
+# h5py   : 3.16.0
+# cuda ok: True
+############################################################
+
+==================== CORRECTNESS (HDF5, outputEvery=20) ====================
+----- [numba CPU] -> output/Particles_numba.h5 -----
+Input file:                 ./input/Particles.in
+HDF5 available:             yes
+HDF5 output:                output/Particles_numba.h5
+Benchmark/no-output mode:   no
+Generating grid:            1200 x 1000
+Screen grid:                1200 x 1000
+Max iterations:             3000
+Steps:                      200
+dt:                         0.001
+Output policy:              step 0, every 20 step(s), and final step, if HDF5 is enabled
+Particles:                  2231
+Simulation completed successfully.
+Output frames:                   11
+Mandelbrot wall time:            1.3383442009799182 s
+Particle generation wall time:   0.0043602579971775413 s
+Initial force wall time:         0.41404792305547744 s
+Pure dynamics time:              0.78489640017505735 s
+Screen build time:               0.010721023194491863 s
+HDF5 write time:                 0.077774303033947945 s
+Validation time:                 0.52690607996191829 s
+Loop wall time:                  0.88252083898987621 s
+Pure dynamics performance:   1.2677163505630513 GInteractions/s
+Loop end-to-end performance: 1.1274815914136327 GInteractions/s
+Final validation quantities:
+  sum_x:            1472647.2045264093
+  sum_y:            809505.43583449733
+  sum_vx:           -0.061883125169401865
+  sum_vy:           -0.75136165665753651
+  weighted_sum_x:   44178743979.983322
+  weighted_sum_y:   24284767977.977978
+  momentum_x:       9.3132257461547852e-09
+  momentum_y:       1.4901161193847656e-08
+  kinetic_energy:   72083387826.281082
+  potential_like:   100142102360.69801
+  energy_like:      172225490186.9791
+----- [numba CUDA] -> output/Particles_numba_cuda.h5 -----
+Input file:                 ./input/Particles.in
+HDF5 available:             yes
+HDF5 output:                output/Particles_numba_cuda.h5
+Benchmark/no-output mode:   no
+Generating grid:            1200 x 1000
+Screen grid:                1200 x 1000
+Max iterations:             3000
+Steps:                      200
+dt:                         0.001
+Output policy:              step 0, every 20 step(s), and final step, if HDF5 is enabled
+Particles:                  2231
+Simulation completed successfully.
+Output frames:                   11
+Mandelbrot wall time:            5.7657135970657691 s
+Particle generation wall time:   0.0044290240621194243 s
+Initial force wall time:         0.49810540594626218 s
+Pure dynamics time:              0.36637217842508107 s
+Screen build time:               0.010360539075918496 s
+HDF5 write time:                 0.073839035932905972 s
+Validation time:                 0.09628913295455277 s
+Loop wall time:                  0.46050064195878804 s
+Pure dynamics performance:   2.715888537926936 GInteractions/s
+Loop end-to-end performance: 2.1607483450349863 GInteractions/s
+Final validation quantities:
+  sum_x:            1472647.2045264093
+  sum_y:            809505.43583449733
+  sum_vx:           -0.061883125168151309
+  sum_vy:           -0.75136165665617227
+  weighted_sum_x:   44178743979.983315
+  weighted_sum_y:   24284767977.977978
+  momentum_x:       6.6123902797698975e-08
+  momentum_y:       2.9802322387695312e-08
+  kinetic_energy:   72083449103.576447
+  potential_like:   100142098571.69952
+  energy_like:      172225547675.27597
+
+==================== BENCHMARK (none 0, no HDF5) ====================
+>>>>> NUMBA CPU (x3) [use reported 'Pure dynamics time', excludes JIT warm-up]
+----- BENCH numba rep=1 -----
+Input file:                 ./input/Particles.in
+HDF5 available:             yes
+HDF5 output:                disabled
+Benchmark/no-output mode:   yes
+Generating grid:            1200 x 1000
+Screen grid:                1200 x 1000
+Max iterations:             3000
+Steps:                      200
+dt:                         0.001
+Output policy:              final frame only, if HDF5 is enabled
+Particles:                  2231
+Simulation completed successfully.
+Output frames:                   0
+Mandelbrot wall time:            0.1868318310007453 s
+Particle generation wall time:   0.0039502449799329042 s
+Initial force wall time:         0.0049082119949162006 s
+Pure dynamics time:              0.12834601837676018 s
+Screen build time:               0 s
+HDF5 write time:                 0 s
+Validation time:                 0.0049394650850445032 s
+Loop wall time:                  0.12838165101129562 s
+Pure dynamics performance:   7.7526830406152349 GInteractions/s
+Loop end-to-end performance: 7.7505312648803129 GInteractions/s
+Final validation quantities:
+  sum_x:            1472647.2045264093
+  sum_y:            809505.43583449733
+  sum_vx:           -0.061883125169401865
+  sum_vy:           -0.75136165665753651
+  weighted_sum_x:   44178743979.983322
+  weighted_sum_y:   24284767977.977978
+  momentum_x:       9.3132257461547852e-09
+  momentum_y:       1.4901161193847656e-08
+  kinetic_energy:   72083387826.281082
+  potential_like:   100142102360.69801
+  energy_like:      172225490186.9791
+----- BENCH numba rep=2 -----
+Input file:                 ./input/Particles.in
+HDF5 available:             yes
+HDF5 output:                disabled
+Benchmark/no-output mode:   yes
+Generating grid:            1200 x 1000
+Screen grid:                1200 x 1000
+Max iterations:             3000
+Steps:                      200
+dt:                         0.001
+Output policy:              final frame only, if HDF5 is enabled
+Particles:                  2231
+Simulation completed successfully.
+Output frames:                   0
+Mandelbrot wall time:            0.17870307900011539 s
+Particle generation wall time:   0.0039703629445284605 s
+Initial force wall time:         0.0048714119475334883 s
+Pure dynamics time:              0.12774989719036967 s
+Screen build time:               0 s
+HDF5 write time:                 0 s
+Validation time:                 0.0046899699373170733 s
+Loop wall time:                  0.12778605800122023 s
+Pure dynamics performance:   7.7888594972192999 GInteractions/s
+Loop end-to-end performance: 7.7866554111129904 GInteractions/s
+Final validation quantities:
+  sum_x:            1472647.2045264093
+  sum_y:            809505.43583449733
+  sum_vx:           -0.061883125169401865
+  sum_vy:           -0.75136165665753651
+  weighted_sum_x:   44178743979.983322
+  weighted_sum_y:   24284767977.977978
+  momentum_x:       9.3132257461547852e-09
+  momentum_y:       1.4901161193847656e-08
+  kinetic_energy:   72083387826.281082
+  potential_like:   100142102360.69801
+  energy_like:      172225490186.9791
+----- BENCH numba rep=3 -----
+Input file:                 ./input/Particles.in
+HDF5 available:             yes
+HDF5 output:                disabled
+Benchmark/no-output mode:   yes
+Generating grid:            1200 x 1000
+Screen grid:                1200 x 1000
+Max iterations:             3000
+Steps:                      200
+dt:                         0.001
+Output policy:              final frame only, if HDF5 is enabled
+Particles:                  2231
+Simulation completed successfully.
+Output frames:                   0
+Mandelbrot wall time:            0.17642059898935258 s
+Particle generation wall time:   0.0041457839542999864 s
+Initial force wall time:         0.0047941630473360419 s
+Pure dynamics time:              0.12712068925611675 s
+Screen build time:               0 s
+HDF5 write time:                 0 s
+Validation time:                 0.0048106960020959377 s
+Loop wall time:                  0.1271589029347524 s
+Pure dynamics performance:   7.8274119328858314 GInteractions/s
+Loop end-to-end performance: 7.8250596461229796 GInteractions/s
+Final validation quantities:
+  sum_x:            1472647.2045264093
+  sum_y:            809505.43583449733
+  sum_vx:           -0.061883125169401865
+  sum_vy:           -0.75136165665753651
+  weighted_sum_x:   44178743979.983322
+  weighted_sum_y:   24284767977.977978
+  momentum_x:       9.3132257461547852e-09
+  momentum_y:       1.4901161193847656e-08
+  kinetic_energy:   72083387826.281082
+  potential_like:   100142102360.69801
+  energy_like:      172225490186.9791
+>>>>> NUMBA CUDA (x3)
+----- BENCH numba_cuda rep=1 -----
+Input file:                 ./input/Particles.in
+HDF5 available:             yes
+HDF5 output:                disabled
+Benchmark/no-output mode:   yes
+Generating grid:            1200 x 1000
+Screen grid:                1200 x 1000
+Max iterations:             3000
+Steps:                      200
+dt:                         0.001
+Output policy:              final frame only, if HDF5 is enabled
+Particles:                  2231
+Simulation completed successfully.
+Output frames:                   0
+Mandelbrot wall time:            5.6342777450336143 s
+Particle generation wall time:   0.0041287810308858752 s
+Initial force wall time:         0.2186648459173739 s
+Pure dynamics time:              0.29855242057237774 s
+Screen build time:               0 s
+HDF5 write time:                 0 s
+Validation time:                 0.098179324995726347 s
+Loop wall time:                  0.29862108698580414 s
+Pure dynamics performance:   3.3328351453066745 GInteractions/s
+Loop end-to-end performance: 3.3320687766678097 GInteractions/s
+Final validation quantities:
+  sum_x:            1472647.2045264093
+  sum_y:            809505.43583449733
+  sum_vx:           -0.061883125168151309
+  sum_vy:           -0.75136165665617227
+  weighted_sum_x:   44178743979.983315
+  weighted_sum_y:   24284767977.977978
+  momentum_x:       6.6123902797698975e-08
+  momentum_y:       2.9802322387695312e-08
+  kinetic_energy:   72083449103.576447
+  potential_like:   100142098571.69952
+  energy_like:      172225547675.27597
+----- BENCH numba_cuda rep=2 -----
+Input file:                 ./input/Particles.in
+HDF5 available:             yes
+HDF5 output:                disabled
+Benchmark/no-output mode:   yes
+Generating grid:            1200 x 1000
+Screen grid:                1200 x 1000
+Max iterations:             3000
+Steps:                      200
+dt:                         0.001
+Output policy:              final frame only, if HDF5 is enabled
+Particles:                  2231
+Simulation completed successfully.
+Output frames:                   0
+Mandelbrot wall time:            5.7328925190959126 s
+Particle generation wall time:   0.0040712750051170588 s
+Initial force wall time:         0.21789563097991049 s
+Pure dynamics time:              0.29673154174815863 s
+Screen build time:               0 s
+HDF5 write time:                 0 s
+Validation time:                 0.097448040032759309 s
+Loop wall time:                  0.29680526000447571 s
+Pure dynamics performance:   3.3532869277661637 GInteractions/s
+Loop end-to-end performance: 3.3524540636004745 GInteractions/s
+Final validation quantities:
+  sum_x:            1472647.2045264093
+  sum_y:            809505.43583449733
+  sum_vx:           -0.061883125168151309
+  sum_vy:           -0.75136165665617227
+  weighted_sum_x:   44178743979.983315
+  weighted_sum_y:   24284767977.977978
+  momentum_x:       6.6123902797698975e-08
+  momentum_y:       2.9802322387695312e-08
+  kinetic_energy:   72083449103.576447
+  potential_like:   100142098571.69952
+  energy_like:      172225547675.27597
+----- BENCH numba_cuda rep=3 -----
+Input file:                 ./input/Particles.in
+HDF5 available:             yes
+HDF5 output:                disabled
+Benchmark/no-output mode:   yes
+Generating grid:            1200 x 1000
+Screen grid:                1200 x 1000
+Max iterations:             3000
+Steps:                      200
+dt:                         0.001
+Output policy:              final frame only, if HDF5 is enabled
+Particles:                  2231
+Simulation completed successfully.
+Output frames:                   0
+Mandelbrot wall time:            5.6012741540325806 s
+Particle generation wall time:   0.0040707190055400133 s
+Initial force wall time:         0.21759122703224421 s
+Pure dynamics time:              0.29128843639045954 s
+Screen build time:               0 s
+HDF5 write time:                 0 s
+Validation time:                 0.09717962599825114 s
+Loop wall time:                  0.29136143391951919 s
+Pure dynamics performance:   3.4159474791721931 GInteractions/s
+Loop end-to-end performance: 3.4150916496204826 GInteractions/s
+Final validation quantities:
+  sum_x:            1472647.2045264093
+  sum_y:            809505.43583449733
+  sum_vx:           -0.061883125168151309
+  sum_vy:           -0.75136165665617227
+  weighted_sum_x:   44178743979.983315
+  weighted_sum_y:   24284767977.977978
+  momentum_x:       6.6123902797698975e-08
+  momentum_y:       2.9802322387695312e-08
+  kinetic_energy:   72083449103.576447
+  potential_like:   100142098571.69952
+  energy_like:      172225547675.27597
+
+py_all DONE @ Wed Jul  8 17:10:26 CEST 2026
