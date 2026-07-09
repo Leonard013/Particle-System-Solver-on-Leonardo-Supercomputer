@@ -23,6 +23,11 @@ MARK = re.compile(r"-{2,}\s*BENCH\s+(?P<model>mpi(?:_weak)?)\s+ranks=(?P<ranks>\
 RE_N = re.compile(r"Particles:\s+(\d+)")
 RE_T = re.compile(r"Pure dynamics time:\s+([0-9.eE+-]+)\s*s")
 RE_G = re.compile(r"Pure dynamics performance:\s+([0-9.eE+-]+)\s*GInteractions/s")
+# Job-level allocation size, printed once per log by run_mpi_nodes.sh
+# ("# nodes: 4  (lrdn[...])"). Logs without it (run_mpi_all.sh) are 1-node jobs.
+# srun steps inside a multi-node allocation spread their ranks across ALL
+# allocated nodes, so every run inherits the log's allocation size.
+RE_NODES = re.compile(r"#\s*nodes:\s*(\d+)")
 
 
 def parse(paths):
@@ -32,11 +37,13 @@ def parse(paths):
             lines = open(p, encoding="utf-8", errors="replace").read().splitlines()
         except OSError as e:
             print(f"[warn] cannot read {p}: {e}", file=sys.stderr); continue
+        nodes = 1
         for ln in lines:
+            if (mm := RE_NODES.search(ln)): nodes = int(mm[1])
             if (m := MARK.search(ln)):
                 if cur: runs.append(cur)
                 cur = {"model": m["model"], "ranks": int(m["ranks"]), "size": m["size"],
-                       "rep": int(m["rep"]), "N": None, "time": None, "giups": None}
+                       "rep": int(m["rep"]), "nodes": nodes, "N": None, "time": None, "giups": None}
                 continue
             if cur is None: continue
             if (mm := RE_N.search(ln)) and cur["N"] is None: cur["N"] = int(mm[1])
@@ -82,32 +89,37 @@ def main():
         print("No MPI runs found.", file=sys.stderr); return 1
 
     with open(os.path.join(args.outdir, "mpi.csv"), "w", newline="") as f:
-        w = csv.writer(f); w.writerow(["model", "size", "ranks", "rep", "N", "pure_dynamics_s", "giups"])
-        for r in sorted(runs, key=lambda r: (r["model"], r["size"], r["ranks"], r["rep"])):
-            w.writerow([r["model"], r["size"], r["ranks"], r["rep"], r["N"], r["time"], r["giups"]])
+        w = csv.writer(f); w.writerow(["model", "size", "ranks", "nodes", "rep", "N", "pure_dynamics_s", "giups"])
+        for r in sorted(runs, key=lambda r: (r["model"], r["size"], r["ranks"], r["nodes"], r["rep"])):
+            w.writerow([r["model"], r["size"], r["ranks"], r["nodes"], r["rep"], r["N"], r["time"], r["giups"]])
 
     serial = {"M": median_from_csv(args.bench_csv, "serial"),
               "L": scaling_serial(args.scaling_csv, "L"),
               "XL": scaling_serial(args.scaling_csv, "XL")}
 
+    # Group by (model, size, ranks, nodes): the same rank count measured on a
+    # 1-node vs a 4-node allocation is a different experiment (inter-node
+    # communication) and must not be blended into one median.
     g = defaultdict(list)
-    for r in runs: g[(r["model"], r["size"], r["ranks"])].append(r["time"])
+    for r in runs: g[(r["model"], r["size"], r["ranks"], r["nodes"])].append(r["time"])
     med = {k: statistics.median(v) for k, v in g.items()}
 
     md = ["# MPI benchmark summary", "",
           "Strong-scaling speedup vs the measured serial medians "
-          f"(M={serial['M']:.4g}s, L={serial['L']:.4g}s, XL={serial['XL']:.4g}s).", "",
+          f"(M={serial['M']:.4g}s, L={serial['L']:.4g}s, XL={serial['XL']:.4g}s).",
+          "`nodes` is the SLURM allocation of the job; srun spreads the ranks",
+          "across all allocated nodes, so e.g. 32 ranks / 4 nodes = 8 ranks/node",
+          "(inter-node traffic), distinct from 32 ranks packed on 1 node.", "",
           "| kind | size | ranks | nodes | median dyn (s) | speedup | efficiency |",
           "|---|---|---|---|---|---|---|"]
-    for (model, size, ranks) in sorted(med, key=lambda k: (k[0], k[1], k[2])):
-        t = med[(model, size, ranks)]
-        nodes = max(1, (ranks + 31) // 32)
+    for (model, size, ranks, nodes) in sorted(med, key=lambda k: (k[0], k[1], k[2], k[3])):
+        t = med[(model, size, ranks, nodes)]
         if model == "mpi" and serial.get(size):
             sp = serial[size] / t
             eff = sp / ranks
             md.append(f"| strong | {size} | {ranks} | {nodes} | {t:.4g} | {sp:.2f}x | {eff*100:.0f}% |")
         elif model == "mpi_weak":
-            base = med.get(("mpi_weak", "W1", 1))
+            base = med.get(("mpi_weak", "W1", 1, 1))
             weff = (base / t) if base else None
             md.append(f"| weak | {size} | {ranks} | {nodes} | {t:.4g} | - | "
                       + (f"{weff*100:.0f}% |" if weff else "- |"))
@@ -122,13 +134,19 @@ def main():
         print(f"[warn] no matplotlib: {e}", file=sys.stderr); return 0
 
     # --- strong scaling: MPI (M/L/XL) vs OpenMP (M) ---
+    # Per (size, ranks) plot the best (fastest) allocation, so each curve shows
+    # the achievable speedup at that rank count; the summary table keeps every
+    # (ranks, nodes) configuration separately.
     plt.figure(figsize=(6.5, 4.5))
     ranks_all = sorted({k[2] for k in med if k[0] == "mpi"})
     plt.plot(ranks_all, ranks_all, "k--", alpha=.5, label="ideal")
     style = {"M": ("o-", "C0"), "L": ("s-", "C1"), "XL": ("^-", "C2")}
     for size, (fmt, col) in style.items():
-        pts = sorted([(k[2], serial[size] / med[k]) for k in med
-                      if k[0] == "mpi" and k[1] == size and serial.get(size)])
+        best = {}
+        for k, t in med.items():
+            if k[0] == "mpi" and k[1] == size and serial.get(size):
+                best[k[2]] = min(best.get(k[2], t), t)
+        pts = sorted((p, serial[size] / t) for p, t in best.items())
         if pts: plt.plot(*zip(*pts), fmt, color=col, label=f"MPI, {size} (N≈{ {'M':2231,'L':8996,'XL':35919}[size] })")
     # OpenMP reference from benchmarks.csv
     try:
@@ -147,7 +165,7 @@ def main():
     plt.savefig(os.path.join(args.outdir, "mpi_speedup.png"), dpi=130); plt.close()
 
     # --- weak scaling efficiency ---
-    base = med.get(("mpi_weak", "W1", 1))
+    base = med.get(("mpi_weak", "W1", 1, 1))
     pts = sorted([(k[2], base / med[k] * 100) for k in med if k[0] == "mpi_weak" and base])
     if pts:
         plt.figure(figsize=(6, 4))

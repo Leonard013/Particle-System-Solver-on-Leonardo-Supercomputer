@@ -58,13 +58,18 @@ lrdn[0328,1731,1856,2358], Dragonfly+):**
   on `/pos`,`/vel`) **and** bitwise-identical across **1 → 128 ranks** (all 11
   validation quantities to 17 digits) — the block decomposition + per-step
   `MPI_Allgatherv` preserves the serial inner force-sum order exactly.
-- **Strong scaling** (pure-dynamics time, median of 3; 32 ranks/node):
+- **Strong scaling** (pure-dynamics time, median of 3). M ranks 1–32 ran on a
+  1-node allocation; every run of the 4-node job (all its 32/64/128-rank steps)
+  spread its ranks across the 4 nodes (Dragonfly+ inter-node traffic):
 
-  | N (size) | 8 | 16 | 32 (1 nd) | 64 (2 nd) | 128 (4 nd) |
-  |---|---|---|---|---|---|
-  | 2231 (M) | 7.9× | 14.9× | 27.5× (86%) | 38.5× (60%) | 38.2× (**30%, saturated**) |
-  | 8996 (L) | — | — | 30.3× (95%) | 57.4× (90%) | 89.7× (70%) |
-  | 35919 (XL) | — | — | — | 61.1× (95%) | **113.7× (89%)** |
+  | N (size) | 8 (1 nd) | 16 (1 nd) | 32 (1 nd) | 32 (4 nd) | 64 (4 nd) | 128 (4 nd) |
+  |---|---|---|---|---|---|---|
+  | 2231 (M) | 7.9× | 14.9× | 27.5× (86%) | 19.2× (60%) | 38.5× (60%) | 38.2× (**30%, saturated**) |
+  | 8996 (L) | — | — | — | 30.3× (95%) | 57.4× (90%) | 89.7× (70%) |
+  | 35919 (XL) | — | — | — | — | 61.1× (95%) | **113.7× (89%)** |
+
+  The M-size 32-rank pair is the communication cost isolated: same ranks, same
+  N — 27.5× packed on one node vs 19.2× spread over four.
 
   The scaling ceiling moves with problem size exactly as Amdahl + communication
   predict. At the official N=2231, 128 ranks (~17 particles/rank) is
@@ -76,8 +81,8 @@ lrdn[0328,1731,1856,2358], Dragonfly+):**
   **29.2× (91%)**. The gap is the per-step `MPI_Allgatherv` that OpenMP avoids via
   shared memory — the lecture's concrete argument for hybrid MPI+OpenMP within a node.
 - **Weak scaling** (constant work/rank, N ∝ √p): p=4 → 99%, p=16 → 95%,
-  **p=64 (2 nodes) → 92%** — holds up because per-rank work is fixed, so the
-  communication fraction stays bounded (the lecture's "weak scaling scales well").
+  **p=64 (4-node allocation) → 92%** — holds up because per-rank work is fixed,
+  so the communication fraction stays bounded (the lecture's "weak scaling scales well").
 - Artifacts: `src/cpp/particles_mpi.cpp`, `run_mpi_all.sh`, `run_mpi_nodes.sh`,
   `tools/parse_mpi.py`, `reports/{mpi_summary.md, mpi.csv, mpi_speedup.png, mpi_weak.png}`.
 
