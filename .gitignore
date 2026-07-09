@@ -1,0 +1,15 @@
+# build artifacts
+build/
+install/
+particles_venv/
+__pycache__/
+*.o
+*.x
+
+# run outputs (keep committed reports/ and logs/*.out)
+output/*.h5
+logs/*.id
+logs/.*id
+
+# OS noise
+.DS_Store
