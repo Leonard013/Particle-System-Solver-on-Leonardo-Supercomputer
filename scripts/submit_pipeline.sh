@@ -34,8 +34,7 @@ rsbatch() {
 jid(){ rsbatch "$@" | grep -oE '[0-9]+' | tail -1; }
 req(){ [[ "${1:-}" =~ ^[0-9]+$ ]] || { echo "FATAL: submit failed at '$2'."; \
        echo "       If the error was 'Invalid account or account/partition combination',"; \
-       echo "       the project tra26_poliex is not yet enabled for submission --"; \
-       echo "       see FinalProjects/Particles/LEONARDO_RUN_STATUS.md."; exit 1; }; }
+       echo "       verify that tra26_poliex is enabled for submission."; exit 1; }; }
 
 echo "[1/2] cpp_all  (boost/dbg): C++ correctness (HDF5) + benchmark sweep"
 CPP=$(jid run_cpp_all.sh); req "$CPP" cpp_all; echo "      -> $CPP"

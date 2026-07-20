@@ -2,6 +2,8 @@
 
 Completed Polimi PhD School HPC final project: a reproducible 2D all-pairs particle solver with C++ and Python baselines plus OpenMP, CUDA, MPI, Numba CPU, and Numba CUDA ports. The dominant force kernel is `O(N²)`; all ports preserve the numerical model and the inner force-summation order.
 
+Repository: [github.com/Leonard013/polimi-hpc-particles](https://github.com/Leonard013/polimi-hpc-particles)
+
 ## Verified Results
 
 Leonardo A100 runs use the official input (`N = 2231`, 200 steps) and HDF5-disabled timing:
@@ -12,7 +14,7 @@ Leonardo A100 runs use the official input (`N = 2231`, 200 steps) and HDF5-disab
 - CUDA reaches `31.1×` at the official size and up to `543×` in the size study.
 - MPI reaches `113.7×` at 128 ranks (`89%` efficiency) for `N = 35,919`.
 
-See [reports/summary.md](reports/summary.md), [reports/scaling_summary.md](reports/scaling_summary.md), [reports/mpi_summary.md](reports/mpi_summary.md), and [LEONARDO_RUN_STATUS.md](LEONARDO_RUN_STATUS.md) for the full evidence trail.
+See [reports/summary.md](reports/summary.md), [reports/scaling_summary.md](reports/scaling_summary.md), and [reports/mpi_summary.md](reports/mpi_summary.md) for the committed evidence.
 
 ## Implementations and Layout
 
@@ -26,7 +28,7 @@ See [reports/summary.md](reports/summary.md), [reports/scaling_summary.md](repor
 | Numba CPU | `src/python/particles_numba.py` | `@njit(parallel=True)` and `prange` |
 | Numba CUDA | `src/python/particles_numba_cuda.py` | `@cuda.jit` kernels |
 
-Inputs live in `input/`, including size-study cases under `input/scaling/`. Automation is split between top-level run/submit scripts and `scripts/`. Raw SLURM logs are in `logs/`; parsed CSVs, plots, validation output, and profiler captures are in `reports/`. Exam material is under `presentation/`.
+Inputs live in `input/`, including size-study cases under `input/scaling/`. Automation is split between top-level run/submit scripts and `scripts/`. Raw SLURM logs are in `logs/`; parsed CSVs, plots, validation output, and profiler captures are in `reports/`.
 
 ## Build and Run
 
@@ -94,5 +96,3 @@ python3 tools/amdahl_fit.py --outdir reports
 ## Reproducibility Policy
 
 Do not enable fast-math, change the inner `j` accumulation order, or introduce pair-symmetry updates without revalidating every implementation. CUDA intentionally uses round-to-nearest intrinsics to prevent contraction. Benchmark changes should record hardware, compiler flags, input size, repetitions, and whether HDF5 output was disabled.
-
-The corrected exam deck is [presentation/Particles_exam_fixed.pptx](presentation/Particles_exam_fixed.pptx), with its editable content specification in [presentation/PRESENTATION.md](presentation/PRESENTATION.md).

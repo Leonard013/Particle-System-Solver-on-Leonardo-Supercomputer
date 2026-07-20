@@ -12,8 +12,8 @@
 #SBATCH --output=logs/%x_%j.out
 #SBATCH --error=logs/%x_%j.err
 # ---------------------------------------------------------------------------
-# Handoff §5 / course profiling lectures: nsys timeline + ncu kernel analysis
-# (incl. the roofline section) for particles_cuda on the A100.
+# CUDA profiling: nsys timeline, ncu kernel analysis, and roofline evidence
+# for particles_cuda on the A100.
 #   * nsys: whole-app timeline at the official size (kernels vs memcpy vs API)
 #   * ncu:  computeForcesKernel at M (N=2231, under-occupied) and
 #           XL (N=35919, saturated) -- the contrast explains the CPU/GPU
