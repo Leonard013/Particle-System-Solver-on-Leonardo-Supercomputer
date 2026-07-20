@@ -12,9 +12,10 @@
 #SBATCH --gres=gpu:1
 #SBATCH --qos=boost_qos_dbg
 
+set -euo pipefail
+
 export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}
 export RTOL=2e-3
 export ATOL=2e-3
 source scripts/env.leonardo.sh
 bash scripts/validate_all.sh
-

@@ -1,487 +1,98 @@
 # Particle System Solver
 
-This repository contains serial baseline implementations of a particle system solver for a parallel programming project.
+Completed Polimi PhD School HPC final project: a reproducible 2D all-pairs particle solver with C++ and Python baselines plus OpenMP, CUDA, MPI, Numba CPU, and Numba CUDA ports. The dominant force kernel is `O(N²)`; all ports preserve the numerical model and the inner force-summation order.
 
-The main objective is to optimize and parallelize the particle dynamics phase, which is dominated by an `O(N^2)` all-pairs force computation.
+## Verified Results
 
-Students may implement optimized versions using one or more of the following programming models:
+Leonardo A100 runs use the official input (`N = 2231`, 200 steps) and HDF5-disabled timing:
 
-- OpenMP
-- MPI
-- CUDA
-- OpenACC
-- Hybrid approaches
-- Numba CPU
-- Numba CUDA
+- The six-way course-gate matrix—C++ serial, OpenMP, CUDA, Python, Numba CPU, and Numba CUDA—passes all 15 pairwise checks at `rtol=atol=2e-3`.
+- C++ serial, OpenMP, CUDA, MPI, Python, and Numba CPU produce bitwise-identical position and velocity arrays. Numba CUDA's largest relative velocity difference is `1.158e-3`, within the course gate.
+- OpenMP reaches `29.2×` speedup at 32 threads (`91%` efficiency).
+- CUDA reaches `31.1×` at the official size and up to `543×` in the size study.
+- MPI reaches `113.7×` at 128 ranks (`89%` efficiency) for `N = 35,919`.
 
-Both C++ and Python baseline implementations are provided.
+See [reports/summary.md](reports/summary.md), [reports/scaling_summary.md](reports/scaling_summary.md), [reports/mpi_summary.md](reports/mpi_summary.md), and [LEONARDO_RUN_STATUS.md](LEONARDO_RUN_STATUS.md) for the full evidence trail.
 
----
+## Implementations and Layout
 
-## Repository Structure
+| Program | Source | Execution model |
+|---|---|---|
+| C++ serial | `src/cpp/particles.cpp` | Reference baseline |
+| OpenMP | `src/cpp/particles_omp.cpp` | Shared-memory outer-loop parallelism |
+| CUDA | `src/cpp/particles.cu` | One GPU thread per particle |
+| MPI | `src/cpp/particles_mpi.cpp` | Block decomposition plus `MPI_Allgatherv` |
+| Python | `src/python/particles.py` | NumPy/Python reference baseline |
+| Numba CPU | `src/python/particles_numba.py` | `@njit(parallel=True)` and `prange` |
+| Numba CUDA | `src/python/particles_numba_cuda.py` | `@cuda.jit` kernels |
 
-```text
-.
-|-- CMakeLists.txt
-|-- CMakePresets.json
-|-- input
-|   `-- Particles.in
-|-- logs
-|-- output
-|-- README.md
-|-- requirements.txt
-|-- scripts
-|   |-- env.leonardo.sh
-|   |-- env.macos.sh
-|   `-- validate_all.sh
-|-- src
-|   |-- cpp
-|   |   `-- particles.cpp
-|   `-- python
-|       `-- particles.py
-|-- submit_cpp.sh
-|-- submit_cuda.sh
-|-- submit_install_pyenv.sh
-|-- submit_numba_cuda.sh
-|-- submit_numba.sh
-|-- submit_omp.sh
-|-- submit_python.sh
-|-- submit_validate.sh
-`-- tools
-    |-- validate_particles_h5.py
-    `-- visualize_particles_h5.py
-```
+Inputs live in `input/`, including size-study cases under `input/scaling/`. Automation is split between top-level run/submit scripts and `scripts/`. Raw SLURM logs are in `logs/`; parsed CSVs, plots, validation output, and profiler captures are in `reports/`. Exam material is under `presentation/`.
 
----
+## Build and Run
 
-## Baseline Implementations
-
-### C++ Baseline
-
-The serial C++17 implementation is located in:
-
-```text
-src/cpp/particles.cpp
-```
-
-This version is intended to be optimized and parallelized using, for example:
-
-- OpenMP
-- CUDA
-- OpenACC
-- MPI
-- Hybrid CPU/GPU approaches
-
-The C++ code uses a structure-of-arrays layout for particle data. 
-This layout is suitable for SIMD vectorization, cache blocking, GPU offloading, and MPI data packing.
-
-The main computational kernel is:
-
-```cpp
-computeForces(...)
-```
-
-This `O(N^2)` all-pairs interaction loop is the primary target for optimization and parallelization.
-
----
-
-### Python Baseline
-
-A serial Python/NumPy implementation is available in:
-
-```text
-src/python/particles.py
-```
-
-This version is intended for students who prefer to work with Python-based acceleration tools such as:
-
-- Numba CPU
-- Numba CUDA
-
-The Python code follows the same numerical model and output format as the C++ baseline.
-
----
-
-## Input File
-
-An example input file is provided in:
-
-```text
-input/Particles.in
-```
-
-The input file contains the following parameters, one per line, after removing empty lines and comment-only lines:
-
-```text
-generatingGridNx
-generatingGridNy
-generatingGridXs
-generatingGridXe
-generatingGridYs
-generatingGridYe
-screenGridNx
-screenGridNy
-screenGridXs
-screenGridXe
-screenGridYs
-screenGridYe
-maxFractalIterations
-timeSteps
-dt
-outputEvery
-```
-
-You are free to modify the input parameters during development and benchmarking.
-
-In particular, you are encouraged to study how the parallel speed-up changes as the problem size increases.
-
----
-
-## Benchmark / No-Output Mode
-
-For performance benchmarking, HDF5 output should normally be disabled.
-
-The recommended C++ benchmark command is:
+Install Python dependencies:
 
 ```bash
-./path/to/particles_serial input/Particles.in none 0
+python3 -m pip install -r requirements.txt
 ```
 
-The recommended Python benchmark command is:
-
-```bash
-python3 ./path/to/particles.py input/Particles.in none 0
-```
-
-The argument:
-
-```text
-none
-```
-
-disables HDF5 output.
-
-The final command-line argument controls the output frequency. In benchmark mode, use:
-
-```text
-0
-```
-
-When HDF5 output is disabled, no `.h5` file is generated.
-
-Please clearly state in your report whether benchmark timings were collected with or without HDF5 output enabled.
-
----
-
-## Correctness and Validation
-
-To check correctness, compare the final validation quantities printed by the optimized version against those printed by the original serial implementation.
-
-The program prints quantities such as:
-
-- sum of particle positions
-- sum of particle velocities
-- weighted position sums
-- total momentum
-- kinetic energy
-- potential-like energy
-- total energy-like quantity
-
-Small numerical differences are expected and acceptable because of:
-
-- different floating-point reduction orders
-- different thread scheduling
-- fused multiply-add instructions
-- compiler optimizations
-- CPU versus GPU arithmetic differences
-
-However, the results should remain numerically consistent with the serial baseline.
-
-For HDF5-based validation, use the validation tools provided in:
-
-```text
-tools/
-```
-
-For example:
-
-```bash
-python3 tools/validate_particles_h5.py output/reference.h5 output/optimized.h5
-```
-
-A convenience validation script is also provided:
-
-```bash
-scripts/validate_all.sh
-```
-
----
-
-## HDF5 Output and Visualization
-
-The original program can optionally generate `.h5` files containing:
-
-- particle weights
-- time steps
-- particle positions
-- particle velocities
-- screen data for visualization
-
-These files may become large and are mainly intended for debugging or visualization.
-
-To generate an HDF5 output file with the C++ version:
-
-```bash
-./src/cpp/particles_serial input/Particles.in output/Particles_cpp.h5 1000
-```
-
-To generate an HDF5 output file with the Python version:
-
-```bash
-python3 src/python/particles.py input/Particles.in output/Particles_python.h5 1000
-```
-
-The generated HDF5 file can be visualized using:
-
-```bash
-python3 tools/visualize_particles_h5.py output/Particles_cpp.h5
-```
-
-For official performance measurements, it is recommended to disable HDF5 output.
-
----
-
-## Python Environment Installation
-
-To install the Python environment on Leonardo, see:
-
-```text
-submit_install_pyenv.sh
-```
-
-The installation procedure is:
-
-```bash
-module purge
-module load cuda/12.2
-module load gcc/12.2.0
-module load cmake/3.27.9
-module load hdf5/1.14.3--gcc--12.2.0-spack0.22
-module load python/3.11.7
-
-python3 -m venv particles_venv --system-site-packages
-source particles_venv/bin/activate
-
-python3 -m pip install --upgrade pip setuptools wheel
-python3 -m pip install --no-cache-dir -r requirements.txt
-
-deactivate
-```
-
-For installation on a local machine, make sure that:
-
-- Python is available
-- CUDA drivers are installed, if CUDA or Numba CUDA will be used
-- the required Python packages in `requirements.txt` are installed
-
----
-
-## CMake Compilation
-
-Example CMake configuration files are provided:
-
-```text
-CMakeLists.txt
-CMakePresets.json
-```
-
-These have been tested for:
-
-- OpenMP and CUDA on Leonardo
-- OpenMP on macOS Apple Silicon
-
-The tested compiler toolchains include:
-
-- GNU
-- NVCC
-- Clang
-
-Other C++17-compatible compilers may also work, provided that they support the required OpenMP/CUDA/HDF5 configuration.
-
-In general, you are free to modify any files, including the compilation CMake files.
-
----
-
-### Leonardo
-
-Before compiling on Leonardo, source the provided environment script:
-
-```bash
-source scripts/env.leonardo.sh
-```
-
-Then configure, build, and install with:
-
-```bash
-cmake --preset leonardo-a100
-cmake --build --preset leonardo-a100 -j
-cmake --install build/leonardo-a100
-```
-
----
-
-### macOS Apple Silicon
-
-Before compiling on macOS Apple Silicon, source the provided environment script:
-
-```bash
-source scripts/env.macos.sh
-```
-
-Then configure, build, and install with:
-
-```bash
-cmake --preset macos-arm64
-cmake --build --preset macos-arm64 -j
-cmake --install build/macos-arm64
-```
-
----
-
-### Generic x86 CPU Without NVIDIA GPU
-
-This configuration has not been extensively tested:
+Choose a CMake preset appropriate to the host:
 
 ```bash
 cmake --preset generic-x86-nogpu
 cmake --build --preset generic-x86-nogpu -j
-cmake --install build/generic-x86-nogpu
 ```
 
----
+Use `macos-arm64`, `generic-x86-nvidia`, or `leonardo-a100` when applicable. CUDA and MPI targets are built only when their toolchains are available. On Leonardo, first run `source scripts/env.leonardo.sh`; on macOS use `source scripts/env.macos.sh`.
 
-### Generic x86 CPU With NVIDIA GPU
-
-This configuration has not been extensively tested:
+Representative no-output benchmark commands are:
 
 ```bash
-cmake --preset generic-x86-nvidia
-cmake --build --preset generic-x86-nvidia -j
-cmake --install build/generic-x86-nvidia
-```
-
----
-
-## Manual Compilation
-
-The C++ code can also be compiled manually.
-
-Without HDF5 support:
-
-```bash
-cd src/cpp
-g++ -O3 -std=c++17 -Wall -Wextra -pedantic particles.cpp -o particles_serial
-```
-
-With HDF5 support:
-
-```bash
-cd src/cpp
-g++ -O3 -std=c++17 -Wall -Wextra -pedantic -DUSE_HDF5 particles.cpp -o particles_serial -lhdf5_cpp -lhdf5
-```
-
-Depending on the system, the HDF5 compiler wrapper may also be used:
-
-```bash
-cd src/cpp
-h5c++ -O3 -std=c++17 -Wall -Wextra -pedantic -DUSE_HDF5 particles.cpp -o particles_serial
-```
-
----
-
-## Running the Code
-
-### C++ Serial Baseline
-
-From the repository root:
-
-```bash
-./src/cpp/particles_serial input/Particles.in none 0
-```
-
-or, if the executable has been installed elsewhere:
-
-```bash
-./path/to/particles_serial input/Particles.in none 0
-```
-
----
-
-### Python Baseline
-
-From the repository root:
-
-```bash
+./build/generic-x86-nogpu/particles_serial input/Particles.in none 0
+OMP_NUM_THREADS=32 ./build/generic-x86-nogpu/particles_omp input/Particles.in none 0
 python3 src/python/particles.py input/Particles.in none 0
+python3 src/python/particles_numba.py input/Particles.in none 0
 ```
 
----
+For CUDA use `particles_cuda`; for MPI use, for example, `mpirun -np 32 particles_mpi ...`. Passing `none 0` disables HDF5 and keeps I/O out of benchmark timings.
 
-## Job Submission Scripts
+## Validation
 
-Several example submission scripts are provided:
+Generate the six matrix outputs in `output/`, then run:
 
-```text
-submit_cpp.sh
-submit_omp.sh
-submit_cuda.sh
-submit_python.sh
-submit_numba.sh
-submit_numba_cuda.sh
-submit_validate.sh
-submit_install_pyenv.sh
+```bash
+bash scripts/validate_all.sh
 ```
 
-These scripts are mainly intended for Leonardo, but can be adapted to other Linux-based HPC systems with minor changes.
+The script executes all 15 comparisons and exits nonzero if any comparison fails. On Leonardo, `bash run_validate.sh` adds strict `1e-12` checks for pairs expected to agree and a separate optional MPI comparison. The known Numba CPU versus Numba CUDA strict mismatch is informational; its course-gate result remains mandatory.
 
----
+To compare any two files directly:
 
-## Development Guidelines
+```bash
+python3 tools/validate_particles_h5.py reference.h5 candidate.h5
+```
 
-When implementing an optimized version:
+## Reproducing Leonardo Evidence
 
-1. Preserve the numerical model and force law.
-2. Compare validation quantities against the serial baseline.
-3. Benchmark with HDF5 output disabled unless explicitly studying I/O performance.
-4. Report the input size, number of particles, number of time steps, hardware, compiler, and compilation flags.
-5. Discuss strong and/or weak scaling where appropriate.
+The submission pipeline assumes the Leonardo build and virtual environment already exist:
 
-The main optimization target is the particle dynamics phase, especially the force computation.
+```bash
+bash scripts/submit_pipeline.sh
+sbatch submit_python_ref.sh       # required for the full 15-pair matrix
+bash run_validate.sh              # run after jobs finish, on the login node
+```
 
----
+MPI scaling and profiling are submitted separately with `run_mpi_all.sh`, `run_mpi_nodes.sh`, and `submit_profile.sh`. Regenerate committed summaries and plots with:
 
-## Notes on Floating-Point Reproducibility
+```bash
+python3 tools/parse_benchmarks.py logs/cpp_all_*.out logs/py_all_*.out --outdir reports --plots
+python3 tools/parse_scaling.py logs/scaling_*.out --outdir reports --plots
+python3 tools/parse_mpi.py logs/mpi_all_*.out logs/mpi_nodes_*.out --outdir reports --plots
+python3 tools/amdahl_fit.py --outdir reports
+```
 
-Parallel implementations may not produce bitwise-identical results to the serial baseline.
+## Reproducibility Policy
 
-This is normal.
+Do not enable fast-math, change the inner `j` accumulation order, or introduce pair-symmetry updates without revalidating every implementation. CUDA intentionally uses round-to-nearest intrinsics to prevent contraction. Benchmark changes should record hardware, compiler flags, input size, repetitions, and whether HDF5 output was disabled.
 
-Differences may arise from:
-
-- different summation orders
-- thread scheduling
-- GPU execution order
-- vectorization
-- fused multiply-add instructions
-- compiler optimization flags
-
-The optimized implementation should nevertheless remain close to the serial result within a reasonable numerical tolerance.
-
----
-
-## Further Instructions
-
-Please read the comments in the source code for additional implementation details and suggestions.
-
-If you find issues in the code or in the provided scripts, please report them to `m.celoria@cineca.it`
-
+The corrected exam deck is [presentation/Particles_exam_fixed.pptx](presentation/Particles_exam_fixed.pptx), with its editable content specification in [presentation/PRESENTATION.md](presentation/PRESENTATION.md).

@@ -168,9 +168,9 @@ and exactly one cell (i=1157, j=489: 3000 fused vs 2654 unfused iterations)
 crosses the 2900 selection threshold. One fused instruction ⇒ one extra particle
 ⇒ the datasets don't even have the same *shape*. Proof: recompiling with
 `-ffp-contract=off` makes C++ bitwise-equal to Python. On Leonardo (gcc 12 +
-nvcc) all six implementations agree at N=2231, so the exam numbers are clean —
+nvcc) all seven runnable programs agree at N=2231, so the exam numbers are clean —
 but the anecdote motivates the whole reproducibility discipline, and the
-profiler later *prices* that discipline (+31% GPU throughput declined, §9).
+profiler later estimates a **+31% FMA optimization opportunity** that we decline (§9).
 
 ---
 
@@ -221,7 +221,8 @@ Bitwise vs the Python baseline *and* vs serial C++.
 Same kernel structure as the CUDA port via `@cuda.jit`, float64 everywhere,
 `cuda.to_device` once, device-resident across steps. Here we can't control FMA
 contraction as surgically as with C++ intrinsics ⇒ the one non-bitwise port
-(≤1.2·10⁻³ on positions — still 40% under the course tolerance).
+(max relative velocity difference **1.158·10⁻³**, below the 2·10⁻³ course gate;
+position max absolute difference **4.56·10⁻⁵**).
 
 *(Why no OpenACC port? Course offers it as the directive-based alternative to
 CUDA. We chose explicit CUDA because bitwise reproducibility needed instruction-
@@ -235,18 +236,20 @@ level control (`__d*_rn`), which directives don't expose. Legitimate, defensible
 1. Every implementation writes the same HDF5 layout; the course validator
    compares `/step /weight /pos /vel` element-by-element over all frames (11
    frames: steps 0,20,…,200). Course gate: `np.isclose` with rtol=atol=2·10⁻³.
-   We ran the **full 15-pair matrix** across all six implementations, plus a
-   **strict pass at rtol=10⁻¹²** ("near-bitwise").
+   We ran the **full 15-pair matrix** across C++ serial, OpenMP, CUDA, Python,
+   Numba CPU, and Numba CUDA. MPI was checked separately against C++ serial.
+   Expected bitwise pairs also received a **strict pass at rtol=10⁻¹²**;
+   Numba CPU vs Numba CUDA is an explicitly informational strict check.
 2. The 11 printed validation quantities compared at 17 significant digits.
 
 **Results (Leonardo A100, official input) — memorize these:**
-- **15/15 pairs PASS** the course gate.
-- serial ≡ OpenMP ≡ CUDA ≡ MPI ≡ Python ≡ Numba: **bitwise identical**
+- **15/15 pairs PASS** the six-way course gate; MPI passes its separate comparison.
+- C++ serial ≡ OpenMP ≡ CUDA ≡ MPI ≡ Python ≡ Numba CPU: **bitwise identical**
   (validator max_abs_diff = **0**). CUDA matches serial in *all 11 printed
   quantities to all 17 digits*.
 - MPI bitwise from 1 to 128 ranks.
-- Numba-CUDA: max |Δpos| ≈ 1.2·10⁻³ (passes 2·10⁻³; fails only the strict pass —
-  first strict mismatch is ~10⁻⁹ absolute).
+- Numba-CUDA: max relative velocity difference **1.158·10⁻³** and max absolute
+  position difference **4.56·10⁻⁵** (passes 2·10⁻³; fails the strict pass).
 - Caveat to volunteer if asked about the printed blocks: `momentum_x/y` are ≈0
   by conservation, computed as catastrophic cancellation → their digits are
   noise; OpenMP/NumPy print-level differences (~10⁻¹⁵ relative) in some
@@ -400,8 +403,8 @@ why CUDA "only ties" omp-32 in the headline table.
   IEEE-754 compliant; differences normally come from *order* and *contraction*.
   We fixed the order (serial inner loop per thread) and blocked contraction
   (`__d*_rn` intrinsics) ⇒ same bits.
-- *What did reproducibility cost?* ncu: enabling FMA would give ≈ +31% — declined
-  deliberately; that's the measured price.
+- *What did reproducibility cost?* ncu estimates that enabling FMA could improve
+  performance by ≈ +31%; we deliberately decline that optimization opportunity.
 - *Why is Numba-CUDA slower than CUDA C++?* Python-side launch overhead ~each
   step and less tuned codegen (NVVM); at small N launch overhead dominates. It's
   also the one port not bitwise (can't control contraction as precisely).
@@ -439,9 +442,10 @@ why CUDA "only ties" omp-32 in the headline table.
 - *What's in the HDF5 file?* `/pos` (frames,N,2), `/vel`, `/step` (frame→step
   map), `/weight` (N), `/screen` (visualization only, excluded from grading
   comparisons); chunked datasets, one frame per chunk.
-- *How would you rerun everything?* `bash scripts/submit_pipeline.sh` (build →
-  jobs → validate → parse → plots); every table regenerates from committed logs
-  via `tools/parse_*.py`.
+- *How would you rerun everything?* Build first, then use
+  `bash scripts/submit_pipeline.sh` for the C++/Numba jobs and
+  `sbatch submit_python_ref.sh` for the full matrix. After completion, run
+  `bash run_validate.sh`, then regenerate tables and plots with `tools/parse_*.py`.
 
 **Curveballs**
 
@@ -470,10 +474,11 @@ why CUDA "only ties" omp-32 in the headline table.
   peak**; FMA would add **+31%** — declined.
 - MPI: 1 node 32r **27.5× (86%)**; spread 4 nodes same 32r **19.2×**; 128r: M
   saturates **38×**, XL **113.7× (89%)**; weak 99/95/**92%**.
-- Numba **27.5×** ≈ OpenMP; Numba-CUDA **11.9×**, ≤**1.2·10⁻³** dev; pure Python
+- Numba **27.5×** ≈ OpenMP; Numba-CUDA **11.9×**, max rel vel **1.158·10⁻³**;
+  pure Python
   **221× slower**.
-- Validation: **15/15 PASS**; **5 implementations bitwise** (max diff = 0); CUDA =
-  serial to 17 digits in all 11 quantities; MPI bitwise 1→128 ranks.
+- Validation: **15/15 PASS** in the six-way matrix; **six state outputs bitwise**
+  (including MPI); CUDA = serial to 17 digits; MPI bitwise 1→128 ranks.
 - Platform: Leonardo Booster, Xeon 8358 32c + **A100 SXM 64 GB** (108 SMs),
   gcc 12.2.0 + CUDA 12.2, sm_80, `-O3`, no fast-math, Dragonfly+.
 
@@ -485,4 +490,4 @@ why CUDA "only ties" omp-32 in the headline table.
 `reports/` (all CSVs, PNGs, validation.log, ncu/nsys reports) · `logs/` (raw
 SLURM output) · `LEONARDO_RUN_STATUS.md` (full run record) ·
 `presentation/PRESENTATION.md` (slide spec). Repo:
-`github.com/Leonard013/polimi-hpc-particles`.
+`github.com/Leonard013/polimi-phd-school`, path `FinalProjects/Particles`.

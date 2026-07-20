@@ -6,8 +6,8 @@ numbers; every figure below was verified against the committed logs/CSVs.
 
 ## Build instructions
 
-- Output: `presentation/Particles_exam.pptx`, 16:9 (13.33 × 7.5 in).
-- Tooling: `python-pptx` (pip-install into a venv; do not pollute the repo).
+- Output: `presentation/Particles_exam_fixed.pptx`, 16:9 (13.33 × 7.5 in).
+- Tooling: `@oai/artifact-tool`; preserve the inherited deck objects and styling.
 - Style: white background, dark near-black text, ONE accent color (e.g. #1f6feb)
   for emphasis/numbers; sans-serif (Calibri/Helvetica); title ~32 pt, body ~18 pt.
 - ≤ 6 bullets per slide; bullets are FINAL TEXT — do not paraphrase or pad.
@@ -26,13 +26,16 @@ numbers; every figure below was verified against the committed logs/CSVs.
 ## S1 — Title
 
 **Particles: parallelizing an O(N²) N-body solver**
-Serial → OpenMP → CUDA → MPI → Numba, validated bitwise on Leonardo (A100)
+C++/Python baselines → OpenMP, CUDA, MPI, Numba CPU and Numba CUDA
 
 Leonardo Scappatura — Polimi PhD School, HPC course final project — July 2026
 
-NOTES: One-liner of the result up front: six implementations of the same numerical
-model, five of them bitwise-identical to the serial baseline, up to 543× on one GPU
-and 114× across 4 nodes with MPI.
+Metric cards: **7** runnable programs · **6** bitwise-identical states ·
+**543×** max GPU speed-up · **113.7×** MPI at 128 ranks.
+
+NOTES: One-liner of the result up front: seven runnable programs—two baselines plus
+five parallel ports. Six produce bitwise-identical state arrays; Numba CUDA passes
+the course tolerance. Speedup reaches 543× on one GPU and 114× across four MPI nodes.
 
 ## S2 — The application
 
@@ -63,48 +66,51 @@ Bullets:
 
 NOTES: This is the thesis of the talk. Parallel ≠ nondeterministic: if you preserve
 the accumulation order per output element, an embarrassingly parallel outer loop
-reproduces serial floating point exactly. The measured cost of this choice comes
-later (profiling slide): −31% of potential GPU throughput. Worth it for validation.
+reproduces serial floating point exactly. The profiler later estimates a +31% FMA
+optimization opportunity, which we decline to retain that reproducibility.
 
-## S4 — Six implementations
+## S4 — Five parallel ports + two baselines
 
 Table (model | file | key techniques):
-| Serial (baseline) | src/cpp/particles.cpp | reference; SoA layout |
+| Serial baselines | src/cpp/particles.cpp + src/python/particles.py | C++ and NumPy references; identical model and HDF5 schema |
 | OpenMP | src/cpp/particles_omp.cpp | `parallel for` on outer loops; reductions for validation sums |
 | CUDA | src/cpp/particles.cu | 1 thread = 1 particle; device-resident SoA; `__d*_rn` intrinsics; sm_80 |
 | MPI | src/cpp/particles_mpi.cpp | block decomposition of i; per-step `MPI_Allgatherv` of positions |
 | Numba CPU | src/python/particles_numba.py | `@njit(parallel=True)` + `prange`, fastmath=False |
 | Numba CUDA | src/python/particles_numba_cuda.py | `@cuda.jit` kernels, float64, device-resident |
 
-NOTES: Same numerical model six times. C++ family and Python family share their
-respective baselines' I/O and validation code verbatim; only the hot loops change.
+NOTES: Five optimized ports plus two serial baselines. The six-way course matrix
+excludes MPI and includes both baselines; MPI is validated separately against C++ serial.
 
 ## S5 — Correctness methodology
 
 Bullets:
 - Every implementation writes the same HDF5 datasets; the course validator compares
   `/step /weight /pos /vel` pairwise.
-- **15-pair full matrix** (all six implementations) at the course gate rtol=atol=2·10⁻³.
-- Extra strict pass at rtol=10⁻¹² ("near-bitwise") within each language family.
+- **15-pair matrix** across C++ serial, OpenMP, CUDA, Python, Numba CPU and Numba
+  CUDA at the course gate rtol=atol=2·10⁻³.
+- MPI checked separately against C++ serial from 1 to 128 ranks.
+- Strict pass at rtol=10⁻¹² for expected bitwise pairs; Numba-CUDA is informational.
 - Plus: 17-significant-digit comparison of the 11 printed validation quantities.
 
-NOTES: Validation is dataset-level over full trajectories (6 frames × N × 2), not
+NOTES: Validation is dataset-level over full trajectories (11 frames × N × 2), not
 just final scalars — position errors would compound over 200 steps and get caught.
 
 ## S6 — Correctness results (Leonardo A100, official input)
 
 Bullets:
-- **15/15 pairs PASS** the course gate.
-- serial, OpenMP, CUDA, MPI, Python, Numba: **bitwise identical** — validator
-  max_abs_diff = 0 on /pos and /vel.
+- **15/15 pairs PASS** the six-way course-gate matrix; MPI also passes its separate
+  serial comparison.
+- C++ serial, OpenMP, CUDA, MPI, Python and Numba CPU produce **bitwise-identical**
+  /pos and /vel arrays.
 - CUDA = serial in **all 11 validation quantities to all 17 printed digits**.
 - MPI bitwise-identical from **1 to 128 ranks** (decomposition preserves sum order).
-- Only exception: Numba-CUDA ≤ 1.2·10⁻³ abs on positions (within gate; fails only
-  the strict 10⁻¹² pass).
+- Numba-CUDA max relative velocity difference is **1.158·10⁻³**, below the
+  2·10⁻³ course gate (position max absolute difference: 4.56·10⁻⁵).
 
 NOTES: "Bitwise" is the headline — it validates the design invariant of S3. The
 Numba-CUDA deviation is the one place we can't control contraction as precisely
-(nvvm codegen); it stays 3 orders of magnitude inside the course tolerance.
+(NVVM codegen); its worst relative difference is about 1.7× below the course limit.
 Momentum components are catastrophic-cancellation quantities (~10⁻⁸ on 10¹¹-scale
 sums), so their trailing digits are not meaningful — expected and documented.
 
@@ -116,7 +122,7 @@ Bullets:
 - Root cause: FMA contraction in the Mandelbrot loop changes 14 of 1.2 M cells;
   ONE cell (i=1157, j=489) crosses the selection threshold (2900).
 - Fix/proof: `-ffp-contract=off` → C++ matches Python **bitwise**.
-- On Leonardo (gcc 12 + nvcc): all six agree at **N = 2231** — no divergence.
+- On Leonardo (gcc 12 + nvcc): all seven runnable programs agree at **N = 2231**.
 
 NOTES: Found during local verification before touching the cluster. A single fused
 multiply-add changed the particle COUNT — the dataset shapes stop matching, not just
@@ -236,8 +242,8 @@ Bullets:
   arithmetic is what makes the GPU bitwise-identical to serial.
 - Occupancy M → XL: 6.1% → 13.8%; waves/SM 0.02 → 0.25 (explains S13/S14).
 
-NOTES: The profiler-quantified price of reproducibility: we know exactly what
-bitwise costs (+31% forgone) and chose it deliberately. On the memory/compute
+NOTES: The profiler reports an estimated +31% FMA optimization opportunity; we
+decline it deliberately to preserve bitwise agreement. On the memory/compute
 roofline the kernel sits under the compute roof, far from the memory roof.
 
 ## S16 — MPI: distributed memory across nodes
@@ -274,10 +280,10 @@ processing element fed, whether SMs or ranks.
 ## S18 — Conclusions
 
 Bullets:
-- Six implementations of one numerical model; **five bitwise-identical** to serial,
-  the sixth within 10⁻³ of it — validated by the course tools, full 15-pair matrix.
+- Seven runnable programs: six produce **bitwise-identical state arrays**;
+  Numba-CUDA passes the 2·10⁻³ course gate.
 - One design rule made that possible: parallelize the outer loop, preserve the
-  inner sum order, refuse contraction — measured cost: 31% of GPU peak, knowingly paid.
+  inner sum order, refuse contraction — an estimated +31% FMA opportunity knowingly declined.
 - Performance: **29.2×** (OpenMP, 32 cores) · **31→543×** (CUDA, N-dependent) ·
   **113.7×** (MPI, 128 ranks) · Numba within 6% of hand-written OpenMP.
 - One lesson everywhere: speedup = work per processing element (Amdahl ceiling,
@@ -289,10 +295,11 @@ a design choice, not luck — and it is measurable.
 ## S19 — Backup: artifacts
 
 Bullets:
-- Repo: `github.com/Leonard013/polimi-hpc-particles` (full history).
+- Repo: `github.com/Leonard013/polimi-phd-school` → `FinalProjects/Particles`.
 - Raw evidence: `logs/*.out` (SLURM jobs), `reports/validation.log` (15-pair matrix),
   `reports/*.csv` (every measurement), `reports/ncu/*.ncu-rep`, `reports/nsys/*`.
-- Reproduce: `scripts/submit_pipeline.sh` (build → run → validate → parse → plots).
+- Run: `scripts/submit_pipeline.sh`; validate: `run_validate.sh`; regenerate reports:
+  `tools/parse_*.py`.
 - Run environment details: `LEONARDO_RUN_STATUS.md`.
 
 NOTES: Everything in the talk is regenerable from the committed logs by

@@ -48,7 +48,7 @@ cat <<EOF
 Submitted:  cpp_all=$CPP  py_all=$PY   (ids in logs/.jobids)
 
 Next:
-  * OPTIONAL pure-Python reference (boost/normal, ~20-40 min, off critical path):
+  * REQUIRED for the full six-way/15-pair validation matrix; optional for benchmarks:
         sbatch submit_python_ref.sh
   * After the jobs finish, VALIDATE on the login node (no GPU needed):
         bash run_validate.sh

@@ -13,11 +13,11 @@ of its deck, etc.
 
 ## 1. From Module 1 (Intro HPC & Leonardo)
 
-**SPMD [M1 s22].** All six implementations are Single-Program-Multiple-Data: the same
-program text runs everywhere; parallel instances distinguish themselves only by an
-index (OpenMP thread id → loop chunk, CUDA `blockIdx/threadIdx` → particle, MPI rank →
-particle block). Nothing in the project is task-parallel; it is pure **data
-parallelism** [M1 s24] over the particle index.
+**SPMD [M1 s22].** All five parallel ports use data-parallel, SPMD-style execution:
+workers run the same kernel and distinguish themselves by an index (OpenMP/Numba
+thread → loop chunk, CUDA/Numba-CUDA `blockIdx/threadIdx` → particle, MPI rank →
+particle block). Nothing in the project is task-parallel; parallel work is pure
+**data parallelism** [M1 s24] over the particle index.
 
 **Memory-bound vs compute-bound [M1 s9, s41].** The course's recap says "HPC
 applications are typically memory-bound". Our force kernel is the notable exception —
@@ -329,7 +329,7 @@ default FMA contraction in the Mandelbrot loop changed 14 cells of 1.2 M, one cr
 the selection threshold, and the C++ baseline generated 2232 particles vs Python's
 2231 — a dataset *shape* mismatch from a single fused instruction. Verified fix:
 `-ffp-contract=off` makes C++ bitwise-equal to Python. On Leonardo (gcc 12 + nvcc)
-all six implementations agree at N=2231. This is the strongest possible illustration
+all seven runnable programs agree at N=2231. This is the strongest possible illustration
 of the course's reproducibility warnings, discovered *before* touching the cluster —
 and the reason every port forbids contraction.
 
