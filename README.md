@@ -6,6 +6,12 @@ The solver seeds ~2,000–144,000 particles from a Mandelbrot escape-time field,
 
 **Goal:** take one serial reference and port it across the major parallel programming models — OpenMP, CUDA, MPI, Numba CPU, Numba CUDA — measuring what each buys on the same kernel, under a strict constraint: every port preserves the numerical model and the inner force-summation order, so results stay reproducible (bitwise-identical where the hardware allows).
 
+<p align="center">
+  <img src="reports/cluster_evolution.gif" width="62%" alt="A single particle cluster collapsing over 200 steps">
+</p>
+
+One cluster from the official run (108 of the 2231 particles), over all 200 steps, colored by speed. The particles start on the Mandelbrot sampling lattice, collapse into a dense core as the all-pairs attraction takes over, and a few slingshot out. Zooming in matters: across the full domain a particle travels only ~0.16% of the domain width, so the whole-field view looks frozen. Regenerate it with [`tools/animate_cluster_h5.py`](tools/animate_cluster_h5.py).
+
 ## Results
 
 Measured on a Leonardo Booster node: Intel Xeon Platinum 8358 (32 cores) + NVIDIA A100-SXM-64GB, GCC 12.2, CUDA 12.2. Official input `N = 2231`, 200 steps, HDF5 output disabled.
