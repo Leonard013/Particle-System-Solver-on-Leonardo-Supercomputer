@@ -1,97 +1,101 @@
-# Particle System Solver
+# Particle System Solver — a parallel programming study
 
-Completed Polimi PhD School HPC final project: a reproducible 2D all-pairs particle solver with C++ and Python baselines plus OpenMP, CUDA, MPI, Numba CPU, and Numba CUDA ports. The dominant force kernel is `O(N²)`; all ports preserve the numerical model and the inner force-summation order.
+Final project for the Politecnico di Milano PhD-school HPC course, benchmarked on the CINECA **Leonardo** supercomputer.
 
-Repository: [github.com/Leonard013/polimi-hpc-particles](https://github.com/Leonard013/polimi-hpc-particles)
+The solver seeds ~2,000–144,000 particles from a Mandelbrot escape-time field, then evolves them with a softened all-pairs attraction and velocity-Verlet integration. The force kernel is `O(N²)` and dominates the runtime — a clean target for parallelization.
 
-## Verified Results
+**Goal:** take one serial reference and port it across the major parallel programming models — OpenMP, CUDA, MPI, Numba CPU, Numba CUDA — measuring what each buys on the same kernel, under a strict constraint: every port preserves the numerical model and the inner force-summation order, so results stay reproducible (bitwise-identical where the hardware allows).
 
-Leonardo A100 runs use the official input (`N = 2231`, 200 steps) and HDF5-disabled timing:
+## Results
 
-- The six-way course-gate matrix—C++ serial, OpenMP, CUDA, Python, Numba CPU, and Numba CUDA—passes all 15 pairwise checks at `rtol=atol=2e-3`.
-- C++ serial, OpenMP, CUDA, MPI, Python, and Numba CPU produce bitwise-identical position and velocity arrays. Numba CUDA's largest relative velocity difference is `1.158e-3`, within the course gate.
-- OpenMP reaches `29.2×` speedup at 32 threads (`91%` efficiency).
-- CUDA reaches `31.1×` at the official size and up to `543×` in the size study.
-- MPI reaches `113.7×` at 128 ranks (`89%` efficiency) for `N = 35,919`.
+Measured on a Leonardo Booster node: Intel Xeon Platinum 8358 (32 cores) + NVIDIA A100-SXM-64GB, GCC 12.2, CUDA 12.2. Official input `N = 2231`, 200 steps, HDF5 output disabled.
 
-See [reports/summary.md](reports/summary.md), [reports/scaling_summary.md](reports/scaling_summary.md), and [reports/mpi_summary.md](reports/mpi_summary.md) for the committed evidence.
+| Implementation | Dynamics time (median) | Speedup vs C++ serial |
+|---|---|---|
+| C++ serial | 3.516 s | 1.0× |
+| OpenMP, 32 threads | 0.120 s | **29.2×** (91% efficiency) |
+| CUDA (A100) | 0.113 s | **31.1×** |
+| Numba CPU | 0.128 s | 27.5× |
+| Numba CUDA | 0.297 s | 11.9× |
 
-## Implementations and Layout
+The official size understates the GPU: at `N = 2231` the A100 is under-occupied and barely beats 32 CPU cores. The size study shows the crossover — CUDA scales to **154 GInt/s, 543× serial** at `N = 143,768`, while OpenMP plateaus at ~8.4 GInt/s:
+
+<p align="center">
+  <img src="reports/speedup_omp.png" width="49%" alt="OpenMP strong scaling">
+  <img src="reports/scaling_giups.png" width="49%" alt="Throughput vs problem size">
+</p>
+
+MPI (block decomposition + `MPI_Allgatherv`) extends strong scaling across nodes: **113.7× at 128 ranks** on 4 nodes (89% efficiency) for `N = 35,919`, with 92% weak-scaling efficiency at 64 ranks.
+
+<p align="center">
+  <img src="reports/mpi_speedup.png" width="60%" alt="MPI strong scaling">
+</p>
+
+**Correctness:** all 15 pairwise comparisons between the six course-gate implementations pass at `rtol = atol = 2e-3`. C++ serial, OpenMP, CUDA, MPI, Python, and Numba CPU produce **bitwise-identical** positions and velocities; Numba CUDA differs by at most `1.16e-3` in relative velocity.
+
+Full evidence: [reports/summary.md](reports/summary.md) · [reports/scaling_summary.md](reports/scaling_summary.md) · [reports/mpi_summary.md](reports/mpi_summary.md) · Nsight captures in `reports/nsys/`, `reports/ncu/`.
+
+## Implementations
 
 | Program | Source | Execution model |
 |---|---|---|
 | C++ serial | `src/cpp/particles.cpp` | Reference baseline |
 | OpenMP | `src/cpp/particles_omp.cpp` | Shared-memory outer-loop parallelism |
 | CUDA | `src/cpp/particles.cu` | One GPU thread per particle |
-| MPI | `src/cpp/particles_mpi.cpp` | Block decomposition plus `MPI_Allgatherv` |
-| Python | `src/python/particles.py` | NumPy/Python reference baseline |
-| Numba CPU | `src/python/particles_numba.py` | `@njit(parallel=True)` and `prange` |
+| MPI | `src/cpp/particles_mpi.cpp` | Block decomposition + `MPI_Allgatherv` |
+| Python | `src/python/particles.py` | NumPy reference baseline |
+| Numba CPU | `src/python/particles_numba.py` | `@njit(parallel=True)` + `prange` |
 | Numba CUDA | `src/python/particles_numba_cuda.py` | `@cuda.jit` kernels |
 
-Inputs live in `input/`, including size-study cases under `input/scaling/`. Automation is split between top-level run/submit scripts and `scripts/`. Raw SLURM logs are in `logs/`; parsed CSVs, plots, validation output, and profiler captures are in `reports/`.
+Inputs live in `input/` (size-study cases in `input/scaling/`), SLURM logs in `logs/`, and committed CSVs, plots, and profiler captures in `reports/`.
 
 ## Build and Run
 
-Install Python dependencies:
-
 ```bash
 python3 -m pip install -r requirements.txt
-```
 
-Choose a CMake preset appropriate to the host:
-
-```bash
-cmake --preset generic-x86-nogpu
+cmake --preset generic-x86-nogpu        # or: macos-arm64, generic-x86-nvidia, leonardo-a100
 cmake --build --preset generic-x86-nogpu -j
 ```
 
-Use `macos-arm64`, `generic-x86-nvidia`, or `leonardo-a100` when applicable. CUDA and MPI targets are built only when their toolchains are available. On Leonardo, first run `source scripts/env.leonardo.sh`; on macOS use `source scripts/env.macos.sh`.
+CUDA and MPI targets build only when their toolchains are present. On Leonardo, `source scripts/env.leonardo.sh` first; on macOS, `source scripts/env.macos.sh`.
 
-Representative no-output benchmark commands are:
+All programs share one CLI. Passing `none 0` disables HDF5 output — the benchmark mode:
 
 ```bash
 ./build/generic-x86-nogpu/particles_serial input/Particles.in none 0
 OMP_NUM_THREADS=32 ./build/generic-x86-nogpu/particles_omp input/Particles.in none 0
-python3 src/python/particles.py input/Particles.in none 0
+mpirun -np 32 ./build/leonardo-a100/particles_mpi input/Particles.in none 0
 python3 src/python/particles_numba.py input/Particles.in none 0
 ```
 
-For CUDA use `particles_cuda`; for MPI use, for example, `mpirun -np 32 particles_mpi ...`. Passing `none 0` disables HDF5 and keeps I/O out of benchmark timings.
-
 ## Validation
 
-Generate the six matrix outputs in `output/`, then run:
+Generate the six HDF5 outputs in `output/`, then run the full 15-pair matrix:
 
 ```bash
-bash scripts/validate_all.sh
+bash scripts/validate_all.sh            # exits nonzero if any comparison fails
 ```
 
-The script executes all 15 comparisons and exits nonzero if any comparison fails. On Leonardo, `bash run_validate.sh` adds strict `1e-12` checks for pairs expected to agree and a separate optional MPI comparison. The known Numba CPU versus Numba CUDA strict mismatch is informational; its course-gate result remains mandatory.
-
-To compare any two files directly:
+Or compare any two files directly:
 
 ```bash
 python3 tools/validate_particles_h5.py reference.h5 candidate.h5
 ```
 
-## Reproducing Leonardo Evidence
+On Leonardo, `bash run_validate.sh` adds strict `1e-12` checks for the pairs expected to agree bitwise.
 
-The submission pipeline assumes the Leonardo build and virtual environment already exist:
+## Reproducing the Leonardo Evidence
 
-```bash
-bash scripts/submit_pipeline.sh
-sbatch submit_python_ref.sh       # required for the full 15-pair matrix
-bash run_validate.sh              # run after jobs finish, on the login node
-```
-
-MPI scaling and profiling are submitted separately with `run_mpi_all.sh`, `run_mpi_nodes.sh`, and `submit_profile.sh`. Regenerate committed summaries and plots with:
+With the Leonardo build and virtualenv in place:
 
 ```bash
-python3 tools/parse_benchmarks.py logs/cpp_all_*.out logs/py_all_*.out --outdir reports --plots
-python3 tools/parse_scaling.py logs/scaling_*.out --outdir reports --plots
-python3 tools/parse_mpi.py logs/mpi_all_*.out logs/mpi_nodes_*.out --outdir reports --plots
-python3 tools/amdahl_fit.py --outdir reports
+bash scripts/submit_pipeline.sh         # core correctness + benchmark jobs
+sbatch submit_python_ref.sh             # needed for the full 15-pair matrix
+bash run_validate.sh                    # after jobs finish, on the login node
 ```
+
+MPI scaling and profiling are submitted with `run_mpi_all.sh`, `run_mpi_nodes.sh`, and `submit_profile.sh`. Regenerate the committed summaries and plots with the parsers in `tools/` (`parse_benchmarks.py`, `parse_scaling.py`, `parse_mpi.py`, `amdahl_fit.py`).
 
 ## Reproducibility Policy
 

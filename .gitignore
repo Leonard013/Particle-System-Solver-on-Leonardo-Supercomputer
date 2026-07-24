@@ -13,3 +13,9 @@ logs/.*id
 
 # OS noise
 .DS_Store
+
+# local AI-assistant files and internal notes
+CLAUDE.md
+.claude/
+LEONARDO_HANDOFF.md
+LEONARDO_RUN_STATUS.md
